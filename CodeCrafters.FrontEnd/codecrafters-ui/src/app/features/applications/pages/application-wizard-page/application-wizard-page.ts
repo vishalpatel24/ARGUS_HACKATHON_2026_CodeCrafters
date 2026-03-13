@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationService } from '../../services/application.service';
@@ -46,7 +46,8 @@ export class ApplicationWizardPageComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private applicationService: ApplicationService,
-    private organisationService: OrganisationService
+    private organisationService: OrganisationService,
+    private cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(200)]],
@@ -122,10 +123,12 @@ export class ApplicationWizardPageComponent implements OnInit {
         });
         this.isLoading = false;
         this.tryPreFillFromOrganisation();
+        this.cdr.detectChanges();
       },
       error: () => {
         this.error = 'Application not found or not a draft.';
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
