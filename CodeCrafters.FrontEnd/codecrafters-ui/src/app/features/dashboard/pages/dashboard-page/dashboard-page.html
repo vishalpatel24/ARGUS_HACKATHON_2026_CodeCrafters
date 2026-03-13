@@ -1,32 +1,43 @@
 <div class="dashboard-container" *ngIf="user">
   <div class="dashboard-header">
-    <h2>Welcome to your Dashboard, {{ user.name.split(' ')[0] }}!</h2>
-    <p>Role: <span class="badge">{{ user.role }}</span></p>
+    <h2>Welcome back, {{ user.name.split(' ')[0] }} 👋</h2>
+    <p>Role: <span class="badge role-badge">{{ user.role }}</span></p>
   </div>
 
   <div class="dashboard-grid">
     <div class="card" *ngIf="user.role === 'Applicant'">
+      <div class="card-icon">📋</div>
       <h3>My Applications</h3>
-      <p>View and manage your grant applications.</p>
+      <p>View and manage your submitted grant applications and track their status.</p>
       <button class="btn btn-primary">Start New Application</button>
     </div>
 
     <div class="card" *ngIf="user.role === 'GrantReviewer' || user.role === 'ProgramOfficer'">
+      <div class="card-icon">🔍</div>
       <h3>Review Queue</h3>
-      <p>Pending applications needing your review.</p>
+      <p>Applications pending your review and approval.</p>
       <button class="btn btn-primary">Go to Review Queue</button>
     </div>
 
     <div class="card" *ngIf="user.role === 'FinanceOfficer'">
+      <div class="card-icon">💳</div>
       <h3>Disbursements</h3>
-      <p>Manage grant disbursements and payments.</p>
+      <p>Manage grant disbursements, payment schedules, and financial reporting.</p>
       <button class="btn btn-primary">View Disbursements</button>
     </div>
 
     <div class="card" *ngIf="user.role === 'PlatformAdmin' || user.role === 'ProgramOfficer'">
+      <div class="card-icon">👥</div>
       <h3>User Management</h3>
-      <p>Manage system users, roles, and access.</p>
+      <p>Manage system users, assign roles, and control platform access.</p>
       <button class="btn btn-primary" routerLink="/users">Manage Users</button>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🏆</div>
+      <h3>Grant Programmes</h3>
+      <p>Explore all available grant programmes and their funding opportunities.</p>
+      <button class="btn btn-secondary" routerLink="/">View Grants</button>
     </div>
   </div>
 </div>
