@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApplicationService } from '../../services/application.service';
@@ -21,7 +21,8 @@ export class ApplicationNewPageComponent implements OnInit {
     private fb: FormBuilder,
     private applicationService: ApplicationService,
     private grantService: GrantService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
       grantTypeId: ['', Validators.required],
@@ -34,10 +35,12 @@ export class ApplicationNewPageComponent implements OnInit {
       next: (list) => {
         this.grants = list;
         this.isLoadingGrants = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.error = 'Failed to load grant programmes.';
         this.isLoadingGrants = false;
+        this.cdr.detectChanges();
       }
     });
   }

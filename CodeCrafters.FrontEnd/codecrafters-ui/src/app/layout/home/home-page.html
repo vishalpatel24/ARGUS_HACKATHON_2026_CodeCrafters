@@ -17,9 +17,15 @@
         <span class="btn-arrow">↓</span>
         <div class="btn-glow"></div>
       </button>
-      <a routerLink="/login" class="btn btn-glass">
-        Access Portal
-      </a>
+      @if (!user) {
+        <a routerLink="/login" class="btn btn-glass">
+          Access Portal
+        </a>
+      } @else {
+        <a routerLink="/dashboard" class="btn btn-glass">
+          Go to Dashboard →
+        </a>
+      }
     </div>
   </div>
 
