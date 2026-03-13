@@ -5,26 +5,75 @@
 }
 
 .top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 72px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, #0f172a 0%, #1a2744 100%);
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  height: 64px;
-  
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  &.scrolled {
+    height: 64px;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border-bottom-color: rgba(59, 130, 246, 0.2);
+  }
+
+  .nav-container {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     cursor: pointer;
+    text-decoration: none;
+
+    .logo-box {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #3b82f6, #10b981);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: white;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+    }
+
     h1 {
       margin: 0;
-      font-size: 1.5rem;
-      font-weight: 700;
-      background: linear-gradient(90deg, #4ade80, #3b82f6);
-      background-clip: text;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #f8fafc;
+      background: linear-gradient(90deg, #f8fafc, #94a3b8);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
   }
 
   .nav-links {
@@ -33,40 +82,123 @@
     gap: 1.5rem;
 
     .nav-link {
-      color: #9ca3af;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #94a3b8;
       text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-      
-      &:hover {
-        color: #ffffff;
+      transition: all 0.2s ease;
+      position: relative;
+      padding: 0.5rem 0;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #3b82f6;
+        transition: width 0.3s ease;
+        border-radius: 2px;
+      }
+
+      &:hover, &.active {
+        color: #f8fafc;
+        &::after { width: 100%; }
+      }
+
+      &.login-link {
+        color: #e2e8f0;
+        &:hover { color: #3b82f6; &::after { display: none; } }
       }
     }
 
-    .btn-register, .btn-logout {
-      background-color: #3b82f6;
+    .btn-register {
+      position: relative;
+      padding: 0.6rem 1.4rem;
+      background: #3b82f6;
       color: white;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
       text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 0.375rem;
-      font-weight: 500;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.2s;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+
+      .btn-text { position: relative; z-index: 2; }
+      
+      .btn-glow {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transform: skewX(-20deg);
+        z-index: 1;
+        transition: left 0.6s ease;
+      }
 
       &:hover {
-        background-color: #2563eb;
+        transform: translateY(-2px);
+        background: #2563eb;
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        .btn-glow { left: 200%; }
       }
     }
 
     .user-menu {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      
-      .user-name {
-        color: #e5e7eb;
-        font-size: 0.875rem;
+      gap: 1.25rem;
+      padding: 0.4rem 0.5rem 0.4rem 1.25rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      backdrop-filter: blur(10px);
+
+      .user-info {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+
+        .user-name {
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: #f8fafc;
+        }
+        .user-role {
+          font-size: 0.7rem;
+          color: #64748b;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+      }
+
+      .logout-link {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        color: #f87171;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        padding: 0;
+
+        &:hover {
+          background: rgba(239, 68, 68, 0.2);
+          transform: scale(1.1);
+        }
+
+        .logout-icon { font-size: 0.9rem; }
       }
     }
   }
@@ -75,4 +207,5 @@
 .main-content {
   flex: 1;
   background-color: #f3f4f6;
+  padding-top: 72px; /* Height of the fixed top-nav */
 }

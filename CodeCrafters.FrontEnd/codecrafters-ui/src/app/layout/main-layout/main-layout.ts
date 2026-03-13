@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, HostListener } from '@angular/core';
 import { AuthService } from '../../features/auth/services/auth.service';
 import { Router } from '@angular/router';
 
@@ -11,6 +11,12 @@ import { Router } from '@angular/router';
 export class MainLayoutComponent {
   authService = inject(AuthService);
   router = inject(Router);
+  isScrolled = false;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 20;
+  }
 
   logout() {
     this.authService.logout();

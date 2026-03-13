@@ -1,15 +1,50 @@
 <!-- ═══════ HERO ═══════════════════════════════════════════════════ -->
-<div class="hero">
-  <div class="hero-content">
-    <span class="hero-eyebrow">🏛️ ARGUS Hackathon 2026</span>
-    <h1 class="title">Funding that <span>Transforms</span> Communities</h1>
-    <p class="subtitle">
-      Explore government grant programmes, check eligibility, and start
-      your application — all in one place.
+<div class="hero-section">
+  <!-- Interactive Ambient Background -->
+  <div class="ambient-sphere sphere-1"></div>
+  <div class="ambient-sphere sphere-2"></div>
+  <div class="ambient-sphere sphere-3"></div>
+
+  <div class="hero-container">
+    <span class="hero-badge fade-in-up delay-1">✨ Grant Lifecycle Management</span>
+    <h1 class="hero-title fade-in-up delay-2">Empowering Impact Through <span>Strategic Funding</span></h1>
+    <p class="hero-subtitle fade-in-up delay-3">
+      Explore high-impact grant programmes, verify your eligibility instantly, and submit applications seamlessly on GrantFlow.
     </p>
-    <div class="hero-actions">
-      <a routerLink="/register" class="btn btn-primary">Apply for a Grant</a>
-      <a routerLink="/login" class="btn btn-outline">Login to Dashboard</a>
+    <div class="hero-actions fade-in-up delay-4">
+      <button class="btn btn-primary btn-glow-effect" (click)="scrollToGrants()">
+        <span class="btn-text">Explore Grants</span>
+        <span class="btn-arrow">↓</span>
+        <div class="btn-glow"></div>
+      </button>
+      <a routerLink="/login" class="btn btn-glass">
+        Access Portal
+      </a>
+    </div>
+  </div>
+
+  <!-- Decorative Feature Cards -->
+  <div class="hero-features fade-in-up delay-5">
+    <div class="feature-card">
+      <div class="fc-icon">🎯</div>
+      <div class="fc-text">
+        <strong>Targeted Funding</strong>
+        <span>Find the perfect grant alignment.</span>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon">⚡</div>
+      <div class="fc-text">
+        <strong>Instant Eligibility</strong>
+        <span>Quick pre-checks before applying.</span>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon">📈</div>
+      <div class="fc-text">
+        <strong>Streamlined Journey</strong>
+        <span>From application to final reporting.</span>
+      </div>
     </div>
   </div>
 </div>
@@ -100,111 +135,6 @@
       <!-- Body -->
       <div class="detail-body">
 
-        <!-- ── Eligibility Pre-Check ─────────────────────────────── -->
-        @if (!showPreCheck && !preCheckResult) {
-          <div class="precheck-banner" (click)="openPreCheck()">
-            <div class="precheck-banner-left">
-              <span class="precheck-pulse"></span>
-              <div>
-                <div class="precheck-banner-title">⚡ Quick Eligibility Check</div>
-                <div class="precheck-banner-subtitle">No sign-up required — get an instant result in 30 seconds</div>
-              </div>
-            </div>
-            <button class="precheck-cta-btn" (click)="openPreCheck()">Check My Eligibility →</button>
-          </div>
-        }
-
-        @if (showPreCheck && !preCheckResult) {
-          <div class="precheck-form-card">
-            <div class="precheck-form-header">
-              <span class="precheck-form-icon">🎯</span>
-              <div>
-                <h4>Eligibility Pre-Check</h4>
-                <p>Answer 3 quick questions to see if you qualify for <strong>{{ selectedGrant?.name }}</strong></p>
-              </div>
-              <button class="pf-close" (click)="closePreCheck()">✕</button>
-            </div>
-
-            <div class="precheck-fields">
-              <!-- Org Type -->
-              <div class="pf-group">
-                <label class="pf-label">🏢 Organisation Type</label>
-                <select class="pf-select" [(ngModel)]="preCheck.orgType" name="orgType">
-                  <option value="">— Select type —</option>
-                  <option value="NGO">NGO / Non-Profit</option>
-                  <option value="Government">Government Body</option>
-                  <option value="University">University / Research Institute</option>
-                  <option value="CBO">Community-Based Organisation</option>
-                  <option value="Private">Private / For-Profit Company</option>
-                  <option value="Individual">Individual / Self-Employed</option>
-                </select>
-              </div>
-
-              <!-- District -->
-              <div class="pf-group">
-                <label class="pf-label">📍 Project District / Region</label>
-                <input class="pf-input" type="text" placeholder="e.g. Mumbai, Pune, Rural Maharashtra…"
-                       [(ngModel)]="preCheck.district" name="district" />
-              </div>
-
-              <!-- Funding Amount -->
-              <div class="pf-group">
-                <label class="pf-label">💰 Funding Amount Requested (₹)</label>
-                <input class="pf-input" type="number" placeholder="e.g. 500000"
-                       [(ngModel)]="preCheck.fundingAmount" name="fundingAmount" min="0" />
-              </div>
-
-              <!-- Project Duration -->
-              <div class="pf-group">
-                <label class="pf-label">📅 Project Duration (Months)</label>
-                <input class="pf-input" type="number" placeholder="e.g. 12"
-                       [(ngModel)]="preCheck.durationMonths" name="durationMonths" min="1" />
-              </div>
-
-              <!-- Overhead Amount -->
-              <div class="pf-group">
-                <label class="pf-label">📊 Overhead Budget (₹)</label>
-                <input class="pf-input" type="number" placeholder="e.g. 50000"
-                       [(ngModel)]="preCheck.overheadAmount" name="overheadAmount" min="0" />
-                <span style="font-size: 0.7rem; color: #64748b; margin-top: 0.25rem; display: block;">Must be &le; 15% of the total requested funding amount.</span>
-              </div>
-            </div>
-
-            <button class="precheck-submit-btn"
-                    [disabled]="!preCheck.orgType || !preCheck.district || !preCheck.fundingAmount || !preCheck.durationMonths || preCheck.overheadAmount === null"
-                    (click)="runPreCheck()">
-              <span>Check Eligibility Now</span>
-              <span class="submit-arrow">→</span>
-            </button>
-          </div>
-        }
-
-        @if (preCheckResult) {
-          <div class="precheck-result" [class.eligible]="preCheckResult.eligible" [class.ineligible]="!preCheckResult.eligible">
-            <div class="result-header">
-              <span class="result-icon">{{ preCheckResult.eligible ? '✅' : '❌' }}</span>
-              <div>
-                <div class="result-verdict">{{ preCheckResult.eligible ? 'Likely Eligible' : 'Likely Not Eligible' }}</div>
-                <div class="result-grant-name">for {{ selectedGrant?.name }}</div>
-              </div>
-              <button class="pf-close" (click)="resetPreCheck()">Try Again</button>
-            </div>
-            <div class="result-reasons">
-              @for (reason of preCheckResult.reasons; track $index) {
-                <div class="reason-item" [class.pass]="reason.pass" [class.fail]="!reason.pass">
-                  <span class="reason-icon">{{ reason.pass ? '✓' : '✗' }}</span>
-                  <span>{{ reason.message }}</span>
-                </div>
-              }
-            </div>
-            @if (preCheckResult.eligible) {
-              <a routerLink="/register" class="btn btn-primary" style="margin-top:1rem;display:inline-flex;" (click)="closeDetails()">
-                Start Application →
-              </a>
-            }
-          </div>
-        }
-
         <!-- Stat row -->
         <div class="detail-stats">
           <div class="stat-card">
@@ -253,7 +183,7 @@
         <!-- CTA -->
         <div class="apply-cta">
           <div class="cta-text">
-            <h4>Ready to apply for {{ selectedGrant.name }}?</h4>
+            <h4>Ready to apply for {{ selectedGrant?.name }}?</h4>
             <p>Create a free account to submit your application online.</p>
           </div>
           <a routerLink="/register" class="btn btn-primary" (click)="closeDetails()">Start Application →</a>
@@ -263,3 +193,4 @@
     </div>
   </div>
 }
+
