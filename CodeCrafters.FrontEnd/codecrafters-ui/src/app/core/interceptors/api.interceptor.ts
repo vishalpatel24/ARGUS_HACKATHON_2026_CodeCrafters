@@ -18,9 +18,12 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   const token = localStorage.getItem('auth_token');
-  let headers = req.headers
-    .set('Content-Type', 'application/json')
-    .set('Accept', 'application/json');
+  const isFormData = req.body instanceof FormData;
+  let headers = req.headers.set('Accept', 'application/json');
+
+  if (!isFormData) {
+    headers = headers.set('Content-Type', 'application/json');
+  }
 
   if (token) {
     headers = headers.set('Authorization', `Bearer ${token}`);
