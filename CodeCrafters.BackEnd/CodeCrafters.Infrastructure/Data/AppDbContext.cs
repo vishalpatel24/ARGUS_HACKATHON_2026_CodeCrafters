@@ -1,5 +1,6 @@
 using CodeCrafters.Domain.Entities;
 using CodeCrafters.Domain.Entities.Grants;
+using CodeCrafters.Domain.Entities.Applications;
 using CodeCrafters.Infrastructure.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,11 +14,23 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     public DbSet<GrantType> GrantTypes => Set<GrantType>();
 
+    public DbSet<GrantWorkflowStage> GrantWorkflowStages => Set<GrantWorkflowStage>();
+
+    public DbSet<Application> Applications => Set<Application>();
+
+    public DbSet<ApplicationWorkflowHistory> ApplicationWorkflowHistories => Set<ApplicationWorkflowHistory>();
+
+    public DbSet<ApplicationReview> ApplicationReviews => Set<ApplicationReview>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfiguration(new GrantTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new GrantWorkflowStageConfiguration());
+        modelBuilder.ApplyConfiguration(new ApplicationConfiguration());
+        modelBuilder.ApplyConfiguration(new ApplicationWorkflowHistoryConfiguration());
+        modelBuilder.ApplyConfiguration(new ApplicationReviewConfiguration());
 
         modelBuilder.Entity<User>(entity =>
         {

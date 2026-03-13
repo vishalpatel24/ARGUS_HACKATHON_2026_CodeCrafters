@@ -32,4 +32,6 @@ public class GrantType
 
     public int MaximumAwardsPerCycle { get; set; }
     public decimal TotalProgrammeBudget { get; set; }
+
+    public ICollection<GrantWorkflowStage> WorkflowStages { get; set; } = new List<GrantWorkflowStage>();
 }
