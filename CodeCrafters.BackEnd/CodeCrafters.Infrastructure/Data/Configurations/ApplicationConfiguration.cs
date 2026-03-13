@@ -20,8 +20,18 @@ public class ApplicationConfiguration : IEntityTypeConfiguration<CodeCrafters.Do
         builder.Property(a => a.Title)
             .HasMaxLength(200);
 
-        builder.Property(a => a.RequestedAmount)
-            .HasColumnType("decimal(18,2)");
+        builder.Property(a => a.RequestedAmount).HasColumnType("decimal(18,2)");
+        builder.Property(a => a.AnnualOperatingBudget).HasColumnType("decimal(18,2)");
+        builder.Property(a => a.PersonnelCosts).HasColumnType("decimal(18,2)");
+        builder.Property(a => a.EquipmentAndMaterials).HasColumnType("decimal(18,2)");
+        builder.Property(a => a.TravelAndLogistics).HasColumnType("decimal(18,2)");
+        builder.Property(a => a.TrainingAndWorkshops).HasColumnType("decimal(18,2)");
+        builder.Property(a => a.TechnologySoftware).HasColumnType("decimal(18,2)");
+        builder.Property(a => a.ContentDevelopment).HasColumnType("decimal(18,2)");
+        builder.Property(a => a.SaplingsAndSeeds).HasColumnType("decimal(18,2)");
+        builder.Property(a => a.CommunityEngagementWages).HasColumnType("decimal(18,2)");
+        builder.Property(a => a.Overheads).HasColumnType("decimal(18,2)");
+        builder.Property(a => a.OtherCosts).HasColumnType("decimal(18,2)");
 
         builder.HasOne(a => a.CurrentStage)
             .WithMany()
