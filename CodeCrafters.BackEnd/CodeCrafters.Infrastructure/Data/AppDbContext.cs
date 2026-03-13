@@ -16,6 +16,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     public DbSet<GrantWorkflowStage> GrantWorkflowStages => Set<GrantWorkflowStage>();
 
+    public DbSet<GrantDocument> GrantDocuments => Set<GrantDocument>();
+
     public DbSet<Application> Applications => Set<Application>();
 
     public DbSet<ApplicationWorkflowHistory> ApplicationWorkflowHistories => Set<ApplicationWorkflowHistory>();
@@ -28,6 +30,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
         modelBuilder.ApplyConfiguration(new GrantTypeConfiguration());
         modelBuilder.ApplyConfiguration(new GrantWorkflowStageConfiguration());
+        modelBuilder.ApplyConfiguration(new GrantDocumentConfiguration());
         modelBuilder.ApplyConfiguration(new ApplicationConfiguration());
         modelBuilder.ApplyConfiguration(new ApplicationWorkflowHistoryConfiguration());
         modelBuilder.ApplyConfiguration(new ApplicationReviewConfiguration());

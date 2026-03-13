@@ -34,4 +34,6 @@ public class GrantType
     public decimal TotalProgrammeBudget { get; set; }
 
     public ICollection<GrantWorkflowStage> WorkflowStages { get; set; } = new List<GrantWorkflowStage>();
+
+    public ICollection<GrantDocument> RequiredDocuments { get; set; } = new List<GrantDocument>();
 }
