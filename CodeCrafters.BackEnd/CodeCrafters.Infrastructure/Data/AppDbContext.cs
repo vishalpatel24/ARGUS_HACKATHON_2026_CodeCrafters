@@ -1,4 +1,6 @@
 using CodeCrafters.Domain.Entities;
+using CodeCrafters.Domain.Entities.Grants;
+using CodeCrafters.Infrastructure.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeCrafters.Infrastructure.Data;
@@ -9,9 +11,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     public DbSet<User> Users => Set<User>();
 
+    public DbSet<GrantType> GrantTypes => Set<GrantType>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfiguration(new GrantTypeConfiguration());
 
         modelBuilder.Entity<User>(entity =>
         {
