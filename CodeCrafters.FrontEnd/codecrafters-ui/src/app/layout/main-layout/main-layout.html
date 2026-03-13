@@ -1,0 +1,28 @@
+<div class="layout-container">
+  <header class="top-nav">
+    <div class="brand" routerLink="/">
+      <h1>GrantFlow</h1>
+    </div>
+    
+    <div class="nav-links">
+      <ng-container *ngIf="authService.currentUser() as user; else loginBtn">
+        <a routerLink="/dashboard" class="nav-link">Dashboard</a>
+        <a *ngIf="user.role === 'PlatformAdmin' || user.role === 'ProgramOfficer'" routerLink="/users" class="nav-link">Users</a>
+        
+        <div class="user-menu">
+          <span class="user-name">{{ user.name }} ({{ user.role }})</span>
+          <button class="btn-logout" (click)="logout()">Logout</button>
+        </div>
+      </ng-container>
+      
+      <ng-template #loginBtn>
+        <a routerLink="/login" class="nav-link">Login</a>
+        <a routerLink="/register" class="btn-register">Register</a>
+      </ng-template>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

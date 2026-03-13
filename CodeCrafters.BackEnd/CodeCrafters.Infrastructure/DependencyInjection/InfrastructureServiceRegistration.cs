@@ -1,4 +1,6 @@
+using CodeCrafters.Application.Auth.Services;
 using CodeCrafters.Application.HealthCheck.Services;
+using CodeCrafters.Infrastructure.Auth;
 using CodeCrafters.Infrastructure.Data;
 using CodeCrafters.Infrastructure.HealthCheck;
 using Microsoft.EntityFrameworkCore;
@@ -14,12 +16,17 @@ public static class InfrastructureServiceRegistration
         var connectionString =
             configuration.GetConnectionString("codecraftersdb")
             ?? configuration.GetConnectionString("DefaultConnection")
-            ?? "Server=localhost;Database=CodeCraftersDb;Trusted_Connection=True;TrustServerCertificate=True;";
+            ?? "Server=(localdb)\\MSSQLLocalDB;Database=CodeCraftersDb;Trusted_Connection=True;TrustServerCertificate=True;";
 
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(connectionString));
 
+        services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
+        services.AddSingleton<JwtTokenService>();
+
         services.AddScoped<IHealthCheckService, HealthCheckService>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUserService, UserService>();
 
         return services;
     }

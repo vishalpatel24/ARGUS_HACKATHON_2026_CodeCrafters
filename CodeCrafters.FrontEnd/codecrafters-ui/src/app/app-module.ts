@@ -5,6 +5,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { apiInterceptor } from './core/interceptors/api.interceptor';
+import { LayoutModule } from './layout/layout-module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { apiInterceptor } from './core/interceptors/api.interceptor';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LayoutModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

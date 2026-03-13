@@ -1,0 +1,36 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2>User Management</h2>
+    <a *ngIf="currentUser?.role === 'PlatformAdmin'" routerLink="create" class="btn btn-primary">Create User</a>
+  </div>
+
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th *ngIf="currentUser?.role === 'PlatformAdmin'">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td><span class="badge role-badge">{{ user.role }}</span></td>
+          <td>
+            <span class="badge" [ngClass]="user.isActive ? 'badge-success' : 'badge-danger'">
+              {{ user.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td *ngIf="currentUser?.role === 'PlatformAdmin'" class="actions-cell">
+            <a [routerLink]="['edit', user.id]" class="btn-icon btn-edit">Edit</a>
+            <button *ngIf="user.isActive" (click)="deactivate(user.id)" class="btn-icon btn-danger">Deactivate</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

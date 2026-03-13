@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#0052cc",
+                "background-light": "#f5f7f8",
+                "background-dark": "#0f1723",
+              },
+              fontFamily: {
+                "display": ["Inter", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<title>GrantFlow - Organisation Profile</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 bg-white dark:bg-slate-900 px-6 lg:px-40 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">account_balance</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">GrantFlow</h2>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<div class="bg-primary/20 bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/10" data-alt="User avatar placeholder with abstract pattern" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC8rMfu5fitmnG35zig8vB_yZxPs336QsHEF3xcmsayjdG5V9CgPX60IzdHj9znz3UTtvW6MtPWYeYq-lIlFDiybZf9UT0z6QcqvbA3eHWBHANljOrVUbghICrrsLB4T2DdxHLPD07VmAZ1TENvV82eqSa8s8BK-GOkYvRxMwV1FRjwdI-_Ak16lWSqc7Vffz_-WYsG8CWTcV0VRdbjnzJvbhKZpEB6_u16OaixXK3VhQkdOoGmeTyEkpfBl3bKOSsnq616biwo9zA");'></div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-10 px-4">
+<div class="layout-content-container flex flex-col max-w-[800px] flex-1">
+<div class="flex flex-col gap-4 mb-8">
+<div class="flex items-center justify-between">
+<h1 class="text-slate-900 dark:text-slate-100 text-3xl font-bold tracking-tight">Organisation Profile</h1>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Step 2 of 4</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-base">Please provide your organisation's legal and financial information to continue your application.</p>
+<div class="mt-4">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-semibold text-primary uppercase">Registration Progress</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">40%</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 40%;"></div>
+</div>
+</div>
+</div>
+<form class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-8 shadow-sm">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2 md:col-span-2">
+<label class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Organisation Name</label>
+<div class="relative">
+<input class="form-input flex w-full rounded-lg text-slate-500 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 h-12 px-4 text-base font-medium cursor-not-allowed" readonly="" type="text" value="Global Welfare Foundation"/>
+<span class="material-symbols-outlined absolute right-4 top-3 text-slate-400 text-[18px]">lock</span>
+</div>
+<p class="text-xs text-slate-400">Organisation name is verified from your primary registration.</p>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Registration Number</label>
+<input class="form-input flex w-full rounded-lg text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 text-base font-normal" placeholder="e.g. 12345/2023" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Organisation Type</label>
+<select class="form-select flex w-full rounded-lg text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 text-base font-normal">
+<option disabled="" selected="" value="">Select type</option>
+<option value="ngo">NGO (Non-Governmental Organisation)</option>
+<option value="trust">Charitable Trust</option>
+<option value="section8">Section 8 Company</option>
+<option value="society">Registered Society</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Year of Establishment</label>
+<input class="form-input flex w-full rounded-lg text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 text-base font-normal" max="2024" min="1900" placeholder="YYYY" type="number"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-slate-700 dark:text-slate-300 text-sm font-semibold">State of Operations</label>
+<select class="form-select flex w-full rounded-lg text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 text-base font-normal">
+<option disabled="" selected="" value="">Select state</option>
+<option value="maharashtra">Maharashtra</option>
+<option value="delhi">Delhi</option>
+<option value="karnataka">Karnataka</option>
+<option value="tamilnadu">Tamil Nadu</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Annual Operating Budget (INR)</label>
+<div class="relative">
+<span class="absolute left-4 top-3 text-slate-400 font-medium">₹</span>
+<input class="form-input flex w-full rounded-lg text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-primary focus:ring-1 focus:ring-primary h-12 pl-8 pr-4 text-base font-normal" placeholder="0.00" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-slate-700 dark:text-slate-300 text-sm font-semibold">Contact Person Name</label>
+<input class="form-input flex w-full rounded-lg text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 text-base font-normal" placeholder="Full legal name" type="text"/>
+</div>
+</div>
+<div class="mt-10 pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<button class="px-6 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all" type="button">
+                                Previous
+                            </button>
+<button class="bg-primary text-white px-8 py-2.5 rounded-lg font-semibold hover:bg-primary/90 transition-all shadow-md shadow-primary/20" type="submit">
+                                Save and Continue
+                            </button>
+</div>
+</form>
+<div class="mt-8 flex items-center justify-center gap-2 text-slate-400 text-sm">
+<span class="material-symbols-outlined text-[16px]">security</span>
+<span>Your data is encrypted and securely stored.</span>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

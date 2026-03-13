@@ -1,10 +1,13 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   const baseUrl = environment.apiUrl;
   let url = req.url;
+  const router = inject(Router);
 
   if (!url.startsWith('http') && url.startsWith('/api')) {
     url = url;
@@ -12,17 +15,27 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
     url = url.startsWith('/') ? `${baseUrl}${url}` : `${baseUrl}/${url}`;
   }
 
+  const token = localStorage.getItem('auth_token');
+  let headers = req.headers
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json');
+
+  if (token) {
+    headers = headers.set('Authorization', `Bearer ${token}`);
+  }
+
   const cloned = req.clone({
     url,
-    setHeaders: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json'
-    }
+    headers
   });
 
   return next(cloned).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 0) {
+      if (error.status === 401) {
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('auth_user');
+        router.navigate(['/login']);
+      } else if (error.status === 0) {
         console.error('Network or CORS error:', error.message);
       } else if (error.status >= 400) {
         console.error(`API error ${error.status}:`, error.error ?? error.message);
