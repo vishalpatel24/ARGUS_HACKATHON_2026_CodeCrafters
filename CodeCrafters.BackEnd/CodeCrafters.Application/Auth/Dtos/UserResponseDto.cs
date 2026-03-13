@@ -6,6 +6,8 @@ public sealed class UserResponseDto
 
     public string Name { get; init; } = string.Empty;
 
+    public string? OrganisationName { get; init; }
+
     public string Email { get; init; } = string.Empty;
 
     public string? Phone { get; init; }

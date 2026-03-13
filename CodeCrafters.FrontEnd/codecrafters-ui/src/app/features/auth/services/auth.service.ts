@@ -28,10 +28,15 @@ export class AuthService {
   }
 
   logout() {
+    this.clearSession();
+    this.router.navigate(['/']);
+  }
+
+  /** Clears token and user from storage and signal without navigating. Use from interceptors on 401. */
+  clearSession(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
     this.currentUser.set(null);
-    this.router.navigate(['/']);
   }
 
   isLoggedIn(): boolean {

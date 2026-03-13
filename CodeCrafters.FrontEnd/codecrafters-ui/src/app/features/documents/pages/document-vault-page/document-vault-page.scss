@@ -1,0 +1,76 @@
+.document-vault-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1rem 0;
+
+  .page-header {
+    margin-bottom: 1.5rem;
+    h2 { margin-bottom: 0.5rem; }
+    p { color: #64748b; margin-bottom: 1rem; }
+  }
+
+  .error-alert {
+    padding: 0.75rem 1rem;
+    background: #fef2f2;
+    color: #b91c1c;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .upload-section {
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+
+    h3 { margin-bottom: 0.75rem; }
+
+    .upload-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+
+      .form-control {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        min-width: 180px;
+      }
+
+      .file-input { font-size: 0.9rem; }
+
+      .btn:disabled { opacity: 0.7; }
+    }
+
+    .file-name { font-size: 0.9rem; color: #64748b; margin-left: 0.5rem; }
+  }
+
+  .documents-section {
+    h3 { margin-bottom: 0.75rem; }
+
+    .loading, .empty { color: #64748b; }
+
+    .doc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .doc-item {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+
+      .doc-name { font-weight: 500; flex: 1 1 200px; }
+      .doc-type { font-size: 0.85rem; color: #64748b; }
+      .doc-meta { font-size: 0.85rem; color: #94a3b8; }
+      .btn-danger { margin-left: auto; background: #dc2626; color: #fff; border: none; }
+    }
+  }
+}

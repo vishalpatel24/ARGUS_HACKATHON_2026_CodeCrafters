@@ -3,11 +3,13 @@ import { catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../features/auth/services/auth.service';
 
 export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   const baseUrl = environment.apiUrl;
   let url = req.url;
   const router = inject(Router);
+  const authService = inject(AuthService);
 
   if (!url.startsWith('http') && url.startsWith('/api')) {
     url = url;
@@ -32,9 +34,10 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   return next(cloned).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('auth_user');
+        authService.clearSession();
         router.navigate(['/login']);
+      } else if (error.status === 403) {
+        router.navigate(['/dashboard']);
       } else if (error.status === 0) {
         console.error('Network or CORS error:', error.message);
       } else if (error.status >= 400) {

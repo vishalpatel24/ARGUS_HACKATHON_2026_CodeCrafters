@@ -21,6 +21,7 @@ public class ApplicationConfiguration : IEntityTypeConfiguration<CodeCrafters.Do
             .HasMaxLength(200);
 
         builder.Property(a => a.RequestedAmount).HasColumnType("decimal(18,2)");
+        builder.Property(a => a.TotalRequestedAmount).HasColumnType("decimal(18,2)");
         builder.Property(a => a.AnnualOperatingBudget).HasColumnType("decimal(18,2)");
         builder.Property(a => a.PersonnelCosts).HasColumnType("decimal(18,2)");
         builder.Property(a => a.EquipmentAndMaterials).HasColumnType("decimal(18,2)");

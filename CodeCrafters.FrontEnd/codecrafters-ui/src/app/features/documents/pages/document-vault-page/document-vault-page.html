@@ -1,0 +1,49 @@
+<div class="document-vault-page">
+  <div class="page-header">
+    <h2>Document Vault</h2>
+    <p>Upload standing documents (Registration Certificate, Audited Financials, 80G) to attach to your applications.</p>
+    <button type="button" class="btn btn-secondary" (click)="goBack()">← Dashboard</button>
+  </div>
+
+  @if (error) {
+    <div class="error-alert">{{ error }}</div>
+  }
+
+  <div class="upload-section">
+    <h3>Upload document</h3>
+    <div class="upload-form">
+      <select [(ngModel)]="selectedType" class="form-control">
+        @for (opt of documentTypes; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </select>
+      <input type="file" id="file-input" class="file-input" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
+      <button type="button" class="btn btn-primary" (click)="upload()" [disabled]="!uploadFile || isUploading">
+        {{ isUploading ? 'Uploading...' : 'Upload' }}
+      </button>
+    </div>
+    @if (uploadFile) {
+      <span class="file-name">{{ uploadFile.name }}</span>
+    }
+  </div>
+
+  <div class="documents-section">
+    <h3>Your documents</h3>
+    @if (isLoading) {
+      <p class="loading">Loading...</p>
+    } @else if (documents.length === 0) {
+      <p class="empty">No documents yet. Upload one above.</p>
+    } @else {
+      <ul class="doc-list">
+        @for (doc of documents; track doc.id) {
+          <li class="doc-item">
+            <span class="doc-name">{{ doc.fileName }}</span>
+            <span class="doc-type">{{ doc.documentType }}</span>
+            <span class="doc-meta">{{ formatSize(doc.fileSizeBytes) }} · {{ formatDate(doc.uploadedAt) }}</span>
+            <button type="button" class="btn btn-sm btn-danger" (click)="deleteDoc(doc)">Delete</button>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</div>

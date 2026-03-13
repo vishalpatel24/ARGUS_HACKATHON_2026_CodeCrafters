@@ -11,6 +11,8 @@
           <ng-container *ngIf="authService.currentUser() as user; else loginBtn">
             <a routerLink="/dashboard" class="nav-link" routerLinkActive="active">Dashboard</a>
             <a *ngIf="user.role === 'Applicant'" routerLink="/organisations/profile" class="nav-link" routerLinkActive="active">Organisation</a>
+            <a *ngIf="user.role === 'Applicant'" routerLink="/documents" class="nav-link" routerLinkActive="active">Document Vault</a>
+            <a *ngIf="user.role === 'Applicant'" routerLink="/applications" class="nav-link" routerLinkActive="active">My Applications</a>
             <a *ngIf="user.role === 'PlatformAdmin' || user.role === 'ProgramOfficer'" routerLink="/users" class="nav-link" routerLinkActive="active">Users</a>
             
             <div class="user-menu">

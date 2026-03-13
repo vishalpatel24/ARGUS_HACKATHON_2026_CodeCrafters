@@ -1,0 +1,37 @@
+<div class="application-new-page">
+  <div class="page-header">
+    <h2>Start New Application</h2>
+    <p>Choose a grant programme and enter a working title. You will then complete the application in steps.</p>
+    <button type="button" class="btn btn-secondary" (click)="goBack()">← Back to My Applications</button>
+  </div>
+
+  @if (error) {
+    <div class="error-alert">{{ error }}</div>
+  }
+
+  @if (isLoadingGrants) {
+    <div class="loading-state"><span>Loading grant programmes...</span></div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="grant-selection-form">
+      <div class="form-group">
+        <label for="grantTypeId">Grant Programme *</label>
+        <select id="grantTypeId" formControlName="grantTypeId" class="form-control">
+          <option value="">-- Select a programme --</option>
+          @for (g of grants; track g.id) {
+            <option [value]="g.id">{{ g.name }} ({{ g.code }})</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="title">Application Title *</label>
+        <input id="title" type="text" formControlName="title" class="form-control" placeholder="e.g. Community Water Project 2025">
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="goBack()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isSubmitting">
+          {{ isSubmitting ? 'Creating...' : 'Start Application' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

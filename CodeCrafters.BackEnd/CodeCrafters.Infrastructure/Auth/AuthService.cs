@@ -25,6 +25,7 @@ public sealed class AuthService(
         {
             Id = Guid.NewGuid(),
             Name = dto.Name,
+            OrganisationName = dto.OrganisationName?.Trim().Length > 0 ? dto.OrganisationName : null,
             Email = dto.Email,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
             Phone = dto.Phone,
@@ -74,6 +75,7 @@ public sealed class AuthService(
     {
         Id = user.Id,
         Name = user.Name,
+        OrganisationName = user.OrganisationName,
         Email = user.Email,
         Phone = user.Phone,
         Role = user.Role.ToString(),

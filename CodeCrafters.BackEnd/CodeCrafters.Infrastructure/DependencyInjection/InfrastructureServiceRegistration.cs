@@ -1,7 +1,11 @@
+using CodeCrafters.Application.Applications.Services;
 using CodeCrafters.Application.Auth.Services;
+using CodeCrafters.Application.Documents.Services;
 using CodeCrafters.Application.HealthCheck.Services;
+using CodeCrafters.Infrastructure.Applications;
 using CodeCrafters.Infrastructure.Auth;
 using CodeCrafters.Infrastructure.Data;
+using CodeCrafters.Infrastructure.Documents;
 using CodeCrafters.Infrastructure.HealthCheck;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +33,8 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<CodeCrafters.Application.Grants.Services.IGrantService, CodeCrafters.Infrastructure.Grants.GrantService>();
         services.AddScoped<CodeCrafters.Application.Organisations.Services.IOrganisationService, CodeCrafters.Infrastructure.Organisations.OrganisationService>();
+        services.AddScoped<IApplicationService, ApplicationService>();
+        services.AddScoped<IDocumentVaultService, DocumentVaultService>();
 
         return services;
     }

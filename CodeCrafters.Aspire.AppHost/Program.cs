@@ -3,7 +3,9 @@ using Aspire.Hosting;
 var builder = DistributedApplication.CreateBuilder(args);
 
 // SQL Server resource and database for the backend API.
-var sql = builder.AddSqlServer("sql", port: 1433);
+var sql = builder.AddSqlServer("sql", port: 1433)
+    .WithDataVolume()
+    .WithLifetime(ContainerLifetime.Persistent);
 var db = sql.AddDatabase("codecraftersdb");
 
 // Backend API: build from Dockerfile using solution root as build context.

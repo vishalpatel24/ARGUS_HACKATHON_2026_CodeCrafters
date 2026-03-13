@@ -1,0 +1,261 @@
+<div class="wizard-container" *ngIf="draft">
+  <div class="wizard-header">
+    <h2>Application: {{ draft.referenceNumber }}</h2>
+    <p>{{ draft.grantTypeName }}</p>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="backToList()">← Back to list</button>
+  </div>
+
+  <div class="stepper">
+    @for (step of steps; track step.id) {
+      <button type="button" class="step" [class.active]="currentStep === step.id" [class.done]="currentStep > step.id"
+        (click)="goToStep(step.id)">
+        <span class="step-num">{{ step.id }}</span>
+        <span class="step-label">{{ step.label }}</span>
+      </button>
+    }
+  </div>
+
+  @if (error) {
+    <div class="error-alert">{{ error }}</div>
+  }
+
+  <form [formGroup]="form" class="wizard-form">
+    <!-- Step 1: Organisation -->
+    @if (currentStep === 1) {
+      <div class="step-content">
+        <h3>Organisation details</h3>
+        <p class="step-desc">Pre-filled from your organisation profile if available.</p>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Application title *</label>
+            <input type="text" formControlName="title" class="form-control" placeholder="Short title for this application">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Legal name *</label>
+            <input type="text" formControlName="legalName" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Registration number *</label>
+            <input type="text" formControlName="registrationNumber" class="form-control">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Organisation type *</label>
+            <select formControlName="organisationType" class="form-control">
+              <option value="">-- Select --</option>
+              @for (t of organisationTypes; track t) {
+                <option [value]="t">{{ t }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Year of establishment *</label>
+            <input type="number" formControlName="yearOfEstablishment" class="form-control" min="1900" max="2100">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>State of registration *</label>
+            <select formControlName="stateOfRegistration" class="form-control">
+              <option value="">-- Select --</option>
+              @for (s of indianStates; track s) {
+                <option [value]="s">{{ s }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Annual operating budget (₹) *</label>
+            <input type="number" formControlName="annualOperatingBudget" class="form-control" min="0" step="0.01">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Primary contact name *</label>
+            <input type="text" formControlName="primaryContactName" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Primary contact email *</label>
+            <input type="email" formControlName="primaryContactEmail" class="form-control">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Primary contact phone *</label>
+            <input type="tel" formControlName="primaryContactPhone" class="form-control" placeholder="10–20 digits">
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Step 2: Project -->
+    @if (currentStep === 2) {
+      <div class="step-content">
+        <h3>Project details</h3>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Project title *</label>
+            <input type="text" formControlName="projectTitle" class="form-control">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Total requested amount (₹) *</label>
+            <input type="number" formControlName="totalRequestedAmount" class="form-control" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label>Project start date</label>
+            <input type="date" formControlName="projectStartDate" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Project end date</label>
+            <input type="date" formControlName="projectEndDate" class="form-control">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Problem statement</label>
+            <textarea formControlName="problemStatement" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Proposed solution</label>
+            <textarea formControlName="proposedSolution" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Target beneficiaries (count)</label>
+            <input type="number" formControlName="targetBeneficiariesCount" class="form-control" min="0">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Expected outcomes</label>
+            <textarea formControlName="expectedOutcomes" class="form-control" rows="2"></textarea>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Step 3: Team -->
+    @if (currentStep === 3) {
+      <div class="step-content">
+        <h3>Authorised signatory</h3>
+        <p class="step-desc">Person authorised to sign and submit this application.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Name *</label>
+            <input type="text" formControlName="authorisedSignatoryName" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Designation *</label>
+            <input type="text" formControlName="designation" class="form-control" placeholder="e.g. CEO, Secretary">
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Step 4: Budget -->
+    @if (currentStep === 4) {
+      <div class="step-content">
+        <h3>Budget breakdown</h3>
+        <p class="step-desc">Running total should match the total requested amount (₹{{ form.get('totalRequestedAmount')?.value || 0 }}).</p>
+        <div class="budget-total" [class.valid]="budgetMatchesTotal">
+          Running total: ₹{{ budgetTotal | number:'1.2-2' }}
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Personnel costs (₹)</label>
+            <input type="number" formControlName="personnelCosts" class="form-control" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label>Equipment & materials (₹)</label>
+            <input type="number" formControlName="equipmentAndMaterials" class="form-control" min="0" step="0.01">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Travel & logistics (₹)</label>
+            <input type="number" formControlName="travelAndLogistics" class="form-control" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label>Overheads (₹)</label>
+            <input type="number" formControlName="overheads" class="form-control" min="0" step="0.01">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Other costs (₹)</label>
+            <input type="number" formControlName="otherCosts" class="form-control" min="0" step="0.01">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Budget justification</label>
+            <textarea formControlName="budgetJustification" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Step 5: Documents -->
+    @if (currentStep === 5) {
+      <div class="step-content">
+        <h3>Documents</h3>
+        <p class="step-desc">Each grant programme has a specific document checklist. Upload required documents when ready. You can attach documents from your Document Vault or upload here.</p>
+        <div class="doc-placeholder">
+          <p>Document upload will be available from the Document Vault. Ensure you have uploaded: Registration Certificate, Audited Financials, and 80G Certificate (if applicable).</p>
+        </div>
+      </div>
+    }
+
+    <!-- Step 6: Review & Submit -->
+    @if (currentStep === 6) {
+      <div class="step-content">
+        <h3>Review & submit</h3>
+        <div class="review-summary">
+          <p><strong>Title:</strong> {{ form.get('title')?.value }}</p>
+          <p><strong>Organisation:</strong> {{ form.get('legalName')?.value }}</p>
+          <p><strong>Project:</strong> {{ form.get('projectTitle')?.value }}</p>
+          <p><strong>Requested amount:</strong> ₹{{ form.get('totalRequestedAmount')?.value | number:'1.2-2' }}</p>
+          <p><strong>Signatory:</strong> {{ form.get('authorisedSignatoryName')?.value }}, {{ form.get('designation')?.value }}</p>
+        </div>
+        <div class="declaration">
+          <label class="declaration-label">
+            <input type="checkbox" formControlName="declarationAccepted">
+            I confirm that the information provided is accurate and I am authorised to submit this application on behalf of the organisation.
+          </label>
+        </div>
+      </div>
+    }
+
+    <div class="wizard-actions">
+      @if (currentStep > 1) {
+        <button type="button" class="btn btn-secondary" (click)="prev()">Previous</button>
+      }
+      @if (currentStep < 6) {
+        <button type="button" class="btn btn-primary" (click)="next()" [disabled]="!canProceed(currentStep) || isSaving">
+          {{ isSaving ? 'Saving...' : 'Next' }}
+        </button>
+      } @else {
+        <button type="button" class="btn btn-primary" (click)="submitApplication()"
+          [disabled]="!form.get('declarationAccepted')?.value || isSubmitting">
+          {{ isSubmitting ? 'Submitting...' : 'Submit application' }}
+        </button>
+      }
+    </div>
+  </form>
+</div>
+
+@if (isLoading && !draft) {
+  <div class="loading-state">Loading application...</div>
+}
+
+@if (!isLoading && !draft && error) {
+  <div class="error-alert">{{ error }}</div>
+  <button type="button" class="btn btn-secondary" (click)="backToList()">Back to list</button>
+}

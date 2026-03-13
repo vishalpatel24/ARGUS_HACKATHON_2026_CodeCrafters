@@ -10,24 +10,34 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', component: HomePageComponent },
-      { 
-        path: '', 
-        loadChildren: () => import('./features/auth/auth-module').then(m => m.AuthModule) 
+      {
+        path: '',
+        loadChildren: () => import('./features/auth/auth-module').then(m => m.AuthModule)
       },
-      { 
-        path: 'dashboard', 
+      {
+        path: 'dashboard',
         canActivate: [authGuard],
-        loadChildren: () => import('./features/dashboard/dashboard-module').then(m => m.DashboardModule) 
+        loadChildren: () => import('./features/dashboard/dashboard-module').then(m => m.DashboardModule)
       },
-      { 
-        path: 'users', 
+      {
+        path: 'users',
         canActivate: [authGuard],
-        loadChildren: () => import('./features/users/users-module').then(m => m.UsersModule) 
+        loadChildren: () => import('./features/users/users-module').then(m => m.UsersModule)
       },
       {
         path: 'organisations',
         canActivate: [authGuard],
         loadChildren: () => import('./features/organisations/organisations-module').then(m => m.OrganisationsModule)
+      },
+      {
+        path: 'applications',
+        canActivate: [authGuard],
+        loadChildren: () => import('./features/applications/applications-module').then(m => m.ApplicationsModule)
+      },
+      {
+        path: 'documents',
+        canActivate: [authGuard],
+        loadChildren: () => import('./features/documents/documents-module').then(m => m.DocumentsModule)
       }
     ]
   },

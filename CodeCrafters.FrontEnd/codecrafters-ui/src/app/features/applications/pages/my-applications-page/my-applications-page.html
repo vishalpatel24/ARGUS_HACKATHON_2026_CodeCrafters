@@ -1,0 +1,55 @@
+<div class="applications-container">
+  <div class="page-header">
+    <h2>My Applications</h2>
+    <p>View and manage your grant applications. Track status and workflow stage.</p>
+    <div class="header-actions">
+      <button type="button" class="btn btn-secondary" (click)="goToDashboard()">← Dashboard</button>
+      <button type="button" class="btn btn-primary" (click)="startNewApplication()">Start New Application</button>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <span>Loading applications...</span>
+    </div>
+  } @else if (error) {
+    <div class="error-alert">
+      {{ error }}
+    </div>
+  } @else if (applications.length === 0) {
+    <div class="empty-state">
+      <span class="empty-icon">📋</span>
+      <h3>No applications yet</h3>
+      <p>Start a new application to apply for a grant programme.</p>
+      <button type="button" class="btn btn-primary" (click)="startNewApplication()">Start New Application</button>
+    </div>
+  } @else {
+    <div class="applications-list">
+      @for (app of applications; track app.id) {
+        <div class="application-card">
+          <div class="card-main">
+            <div class="ref-and-title">
+              <span class="ref">{{ app.referenceNumber }}</span>
+              <h3 class="title">{{ app.title || 'Untitled application' }}</h3>
+              <span class="grant-type">{{ app.grantTypeName }}</span>
+            </div>
+            <div class="card-meta">
+              <span class="status-pill" [class]="'status-' + (app.statusLabel?.toLowerCase() || 'draft')">
+                {{ app.statusLabel }}
+              </span>
+              <span class="stage">{{ app.currentStageName }}</span>
+              <span class="updated">Updated {{ formatDate(app.lastUpdated) }}</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            @if (app.statusLabel === 'Draft') {
+              <a [routerLink]="['/applications', app.id, 'edit']" class="btn btn-secondary btn-sm">Edit</a>
+            }
+            <span class="stage-label">Stage: {{ app.currentStageName }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

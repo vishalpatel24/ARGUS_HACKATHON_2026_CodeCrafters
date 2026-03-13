@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrganisationService } from '../../services/organisation.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { UpsertOrganisationDto } from '../../models/organisation.models';
 
 @Component({
@@ -33,6 +34,7 @@ export class OrganisationProfilePageComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private organisationService: OrganisationService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) {
     this.profileForm = this.fb.group({
@@ -48,15 +50,21 @@ export class OrganisationProfilePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const currentUser = this.authService.currentUser();
     this.organisationService.getMyOrganisation().subscribe({
       next: (org) => {
         if (org) {
           this.profileForm.patchValue(org);
+        } else if (currentUser?.organisationName) {
+          this.profileForm.patchValue({ name: currentUser.organisationName });
         }
         this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: () => {
+        if (currentUser?.organisationName) {
+          this.profileForm.patchValue({ name: currentUser.organisationName });
+        }
         this.isLoading = false;
         this.cdr.detectChanges();
       }

@@ -25,6 +25,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     public DbSet<Organisation> Organisations => Set<Organisation>();
 
+    public DbSet<UserDocument> UserDocuments => Set<UserDocument>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -36,12 +38,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.ApplyConfiguration(new ApplicationWorkflowHistoryConfiguration());
         modelBuilder.ApplyConfiguration(new ApplicationReviewConfiguration());
         modelBuilder.ApplyConfiguration(new OrganisationConfiguration());
+        modelBuilder.ApplyConfiguration(new UserDocumentConfiguration());
 
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(u => u.Id);
             entity.HasIndex(u => u.Email).IsUnique();
             entity.Property(u => u.Name).IsRequired().HasMaxLength(200);
+            entity.Property(u => u.OrganisationName).HasMaxLength(300);
             entity.Property(u => u.Email).IsRequired().HasMaxLength(256);
             entity.Property(u => u.PasswordHash).IsRequired();
             entity.Property(u => u.Phone).HasMaxLength(20);
