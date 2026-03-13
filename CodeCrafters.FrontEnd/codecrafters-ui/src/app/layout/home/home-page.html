@@ -1,10 +1,73 @@
 <div class="hero">
   <div class="hero-content">
     <h1 class="title">Welcome to GrantFlow</h1>
-    <p class="subtitle">A complete authentication and user management system for the ARGUS Hackathon.</p>
+    <p class="subtitle">Explore available grants below. Register or login to apply.</p>
     <div class="actions">
       <a routerLink="/login" class="btn btn-primary">Login to Account</a>
       <a routerLink="/register" class="btn btn-secondary">Apply for Grant</a>
     </div>
   </div>
+</div>
+
+<div class="grants-section" style="padding: 2rem; max-width: 1200px; margin: 0 auto;">
+  <h2 style="text-align: center; margin-bottom: 2rem; color: #1e293b;">Available Grants</h2>
+
+  @if (!selectedGrant) {
+    @if (grants.length === 0) {
+      <p style="text-align:center; color: #94a3b8;">Loading grants...</p>
+    }
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+      @for (grant of grants; track grant.id) {
+        <div class="grant-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 style="margin-top: 0; color: #0f172a;">{{ grant.name }} ({{ grant.code }})</h3>
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">{{ grant.purpose.slice(0, 120) }}...</p>
+          </div>
+          <div>
+            <div style="margin-bottom: 1rem;">
+              <strong style="color: #334155;">Budget:</strong> {{ grant.totalProgrammeBudget | currency:'INR':'symbol':'1.0-0' }}
+            </div>
+            <button (click)="viewDetails(grant.id)" class="btn btn-primary" style="width: 100%;">View Details</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (selectedGrant) {
+    <div class="grant-details" style="background: white; border-radius: 8px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;">
+      <button (click)="closeDetails()" class="btn btn-secondary" style="margin-bottom: 1.5rem;">&larr; Back to Grants</button>
+      <h2 style="margin-top: 0; color: #0f172a;">{{ selectedGrant.name }} ({{ selectedGrant.code }})</h2>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;">
+        <div>
+          <h4 style="color: #334155; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">Programme Overview</h4>
+          <p style="color: #475569; line-height: 1.6;">{{ selectedGrant.purpose }}</p>
+
+          <h4 style="color: #334155; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 1.5rem;">Eligibility &amp; Focus</h4>
+          <ul style="color: #475569; line-height: 1.6; padding-left: 1.5rem;">
+            <li><strong>Eligible Applicants:</strong> {{ selectedGrant.eligibleApplicants }}</li>
+            <li><strong>Geographic Focus:</strong> {{ selectedGrant.geographicFocus }}</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color: #334155; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">Funding &amp; Constraints</h4>
+          <ul style="color: #475569; line-height: 1.6; padding-left: 1.5rem;">
+            <li><strong>Funding Range:</strong> {{ selectedGrant.fundingMinAmount | currency:'INR':'symbol':'1.0-0' }} – {{ selectedGrant.fundingMaxAmount | currency:'INR':'symbol':'1.0-0' }}</li>
+            <li><strong>Total Budget:</strong> {{ selectedGrant.totalProgrammeBudget | currency:'INR':'symbol':'1.0-0' }}</li>
+            <li><strong>Duration:</strong> {{ selectedGrant.projectDurationMinMonths }} – {{ selectedGrant.projectDurationMaxMonths }} months</li>
+            <li><strong>Annual Cycle:</strong> {{ selectedGrant.annualCycle }}</li>
+            <li><strong>Max Awards/Cycle:</strong> {{ selectedGrant.maximumAwardsPerCycle }}</li>
+          </ul>
+
+          <div style="margin-top: 2rem; background: #e0f2fe; padding: 1.5rem; border-radius: 8px; border: 1px solid #bae6fd;">
+            <h4 style="margin-top: 0; color: #0369a1;">Ready to Apply?</h4>
+            <p style="color: #0c4a6e; font-size: 0.9rem; margin-bottom: 1rem;">Register for a GrantFlow account to submit your application.</p>
+            <a routerLink="/register" class="btn btn-primary" style="width: 100%; text-align: center; display: block;">Start Application</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
 </div>
