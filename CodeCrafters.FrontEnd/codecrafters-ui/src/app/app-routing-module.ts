@@ -28,6 +28,21 @@ const routes: Routes = [
         path: 'organisations',
         canActivate: [authGuard],
         loadChildren: () => import('./features/organisations/organisations-module').then(m => m.OrganisationsModule)
+      },
+      {
+        path: 'document-vault',
+        canActivate: [authGuard],
+        loadChildren: () => import('./features/document-vault/document-vault-module').then(m => m.DocumentVaultModule)
+      },
+      {
+        path: 'screening',
+        canActivate: [authGuard],
+        loadChildren: () => import('./features/screening/screening-module').then(m => m.ScreeningModule)
+      },
+      {
+        path: 'applications',
+        canActivate: [authGuard],
+        loadChildren: () => import('./features/applications/applications-module').then(m => m.ApplicationsModule)
       }
     ]
   },

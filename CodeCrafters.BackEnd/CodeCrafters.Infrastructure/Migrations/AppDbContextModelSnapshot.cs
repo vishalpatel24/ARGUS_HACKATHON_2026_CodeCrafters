@@ -397,6 +397,63 @@ namespace CodeCrafters.Infrastructure.Migrations
                     b.ToTable("Applications");
                 });
 
+            modelBuilder.Entity("CodeCrafters.Domain.Entities.DocumentVaultItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DocumentType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<long>("FileSizeBytes")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OriginalFileName")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("StoredFilePath")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "DocumentType");
+
+                    b.ToTable("DocumentVaultItems");
+                });
+
             modelBuilder.Entity("CodeCrafters.Domain.Entities.GrantDocument", b =>
                 {
                     b.Property<Guid>("Id")
@@ -737,6 +794,320 @@ namespace CodeCrafters.Infrastructure.Migrations
                     b.HasIndex("GrantTypeId");
 
                     b.ToTable("GrantWorkflowStages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000100"),
+                            AssigneeRole = "Program Officer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a1111111-1111-1111-1111-111111111111"),
+                            IsDeleted = false,
+                            Name = "Submitted",
+                            OrderIdx = 1,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000101"),
+                            AssigneeRole = "Program Officer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a1111111-1111-1111-1111-111111111111"),
+                            IsDeleted = false,
+                            Name = "Eligibility Screening",
+                            OrderIdx = 2,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000102"),
+                            AssigneeRole = "Grant Reviewer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a1111111-1111-1111-1111-111111111111"),
+                            IsDeleted = false,
+                            Name = "Under Review",
+                            OrderIdx = 3,
+                            RequiredReviewers = 2,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000103"),
+                            AssigneeRole = "Grant Admin",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a1111111-1111-1111-1111-111111111111"),
+                            IsDeleted = false,
+                            Name = "Award Decision",
+                            OrderIdx = 4,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000104"),
+                            AssigneeRole = "Grant Admin",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a1111111-1111-1111-1111-111111111111"),
+                            IsDeleted = false,
+                            Name = "Agreement Sent",
+                            OrderIdx = 5,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000105"),
+                            AssigneeRole = "Finance Officer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a1111111-1111-1111-1111-111111111111"),
+                            IsDeleted = false,
+                            Name = "Active Grant",
+                            OrderIdx = 6,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000106"),
+                            AssigneeRole = "Program Officer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a1111111-1111-1111-1111-111111111111"),
+                            IsDeleted = false,
+                            Name = "Reporting",
+                            OrderIdx = 7,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000107"),
+                            AssigneeRole = "Grant Admin",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a1111111-1111-1111-1111-111111111111"),
+                            IsDeleted = false,
+                            Name = "Closed",
+                            OrderIdx = 8,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000200"),
+                            AssigneeRole = "Program Officer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            IsDeleted = false,
+                            Name = "Submitted",
+                            OrderIdx = 1,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000201"),
+                            AssigneeRole = "Program Officer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            IsDeleted = false,
+                            Name = "Eligibility Screening",
+                            OrderIdx = 2,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000202"),
+                            AssigneeRole = "Grant Reviewer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            IsDeleted = false,
+                            Name = "Under Review",
+                            OrderIdx = 3,
+                            RequiredReviewers = 2,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000203"),
+                            AssigneeRole = "Grant Admin",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            IsDeleted = false,
+                            Name = "Award Decision",
+                            OrderIdx = 4,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000204"),
+                            AssigneeRole = "Grant Admin",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            IsDeleted = false,
+                            Name = "Agreement Sent",
+                            OrderIdx = 5,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000205"),
+                            AssigneeRole = "Finance Officer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            IsDeleted = false,
+                            Name = "Active Grant",
+                            OrderIdx = 6,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000206"),
+                            AssigneeRole = "Program Officer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            IsDeleted = false,
+                            Name = "Reporting",
+                            OrderIdx = 7,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000207"),
+                            AssigneeRole = "Grant Admin",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a2222222-2222-2222-2222-222222222222"),
+                            IsDeleted = false,
+                            Name = "Closed",
+                            OrderIdx = 8,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000300"),
+                            AssigneeRole = "Program Officer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a3333333-3333-3333-3333-333333333333"),
+                            IsDeleted = false,
+                            Name = "Submitted",
+                            OrderIdx = 1,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000301"),
+                            AssigneeRole = "Program Officer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a3333333-3333-3333-3333-333333333333"),
+                            IsDeleted = false,
+                            Name = "Eligibility Screening",
+                            OrderIdx = 2,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000302"),
+                            AssigneeRole = "Grant Reviewer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a3333333-3333-3333-3333-333333333333"),
+                            IsDeleted = false,
+                            Name = "Under Review",
+                            OrderIdx = 3,
+                            RequiredReviewers = 2,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000303"),
+                            AssigneeRole = "Grant Admin",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a3333333-3333-3333-3333-333333333333"),
+                            IsDeleted = false,
+                            Name = "Award Decision",
+                            OrderIdx = 4,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000304"),
+                            AssigneeRole = "Grant Admin",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a3333333-3333-3333-3333-333333333333"),
+                            IsDeleted = false,
+                            Name = "Agreement Sent",
+                            OrderIdx = 5,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000305"),
+                            AssigneeRole = "Finance Officer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a3333333-3333-3333-3333-333333333333"),
+                            IsDeleted = false,
+                            Name = "Active Grant",
+                            OrderIdx = 6,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000306"),
+                            AssigneeRole = "Program Officer",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a3333333-3333-3333-3333-333333333333"),
+                            IsDeleted = false,
+                            Name = "Reporting",
+                            OrderIdx = 7,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        },
+                        new
+                        {
+                            Id = new Guid("eeeee111-1111-1111-1111-000000000307"),
+                            AssigneeRole = "Grant Admin",
+                            CreatedAt = new DateTime(2026, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GrantTypeId = new Guid("a3333333-3333-3333-3333-333333333333"),
+                            IsDeleted = false,
+                            Name = "Closed",
+                            OrderIdx = 8,
+                            RequiredReviewers = 0,
+                            SlaDays = 7,
+                            SlaType = "Working Days"
+                        });
                 });
 
             modelBuilder.Entity("CodeCrafters.Domain.Entities.Organisations.Organisation", b =>
@@ -797,6 +1168,9 @@ namespace CodeCrafters.Infrastructure.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("YearOfEstablishment")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
@@ -820,6 +1194,116 @@ namespace CodeCrafters.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SampleEntities");
+                });
+
+            modelBuilder.Entity("CodeCrafters.Domain.Entities.ScreeningCheck", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("AiScore")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CheckCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("CheckName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("CheckType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Details")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Result")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<Guid>("ScreeningReportId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScreeningReportId");
+
+                    b.ToTable("ScreeningChecks");
+                });
+
+            modelBuilder.Entity("CodeCrafters.Domain.Entities.ScreeningReport", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ApplicationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("GeneratedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HardChecksFailed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HardChecksPassed")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OfficerAction")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("OfficerActionReason")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("OverallResult")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ReviewedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("SoftFlags")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationId");
+
+                    b.HasIndex("ReviewedByUserId");
+
+                    b.ToTable("ScreeningReports");
                 });
 
             modelBuilder.Entity("CodeCrafters.Domain.Entities.User", b =>
@@ -942,6 +1426,17 @@ namespace CodeCrafters.Infrastructure.Migrations
                     b.Navigation("GrantType");
                 });
 
+            modelBuilder.Entity("CodeCrafters.Domain.Entities.DocumentVaultItem", b =>
+                {
+                    b.HasOne("CodeCrafters.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("CodeCrafters.Domain.Entities.GrantDocument", b =>
                 {
                     b.HasOne("CodeCrafters.Domain.Entities.GrantType", "GrantType")
@@ -975,6 +1470,35 @@ namespace CodeCrafters.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CodeCrafters.Domain.Entities.ScreeningCheck", b =>
+                {
+                    b.HasOne("CodeCrafters.Domain.Entities.ScreeningReport", "ScreeningReport")
+                        .WithMany("Checks")
+                        .HasForeignKey("ScreeningReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ScreeningReport");
+                });
+
+            modelBuilder.Entity("CodeCrafters.Domain.Entities.ScreeningReport", b =>
+                {
+                    b.HasOne("CodeCrafters.Domain.Entities.Applications.Application", "Application")
+                        .WithMany()
+                        .HasForeignKey("ApplicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CodeCrafters.Domain.Entities.User", "ReviewedByUser")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Application");
+
+                    b.Navigation("ReviewedByUser");
+                });
+
             modelBuilder.Entity("CodeCrafters.Domain.Entities.Applications.Application", b =>
                 {
                     b.Navigation("WorkflowHistories");
@@ -985,6 +1509,11 @@ namespace CodeCrafters.Infrastructure.Migrations
                     b.Navigation("RequiredDocuments");
 
                     b.Navigation("WorkflowStages");
+                });
+
+            modelBuilder.Entity("CodeCrafters.Domain.Entities.ScreeningReport", b =>
+                {
+                    b.Navigation("Checks");
                 });
 #pragma warning restore 612, 618
         }

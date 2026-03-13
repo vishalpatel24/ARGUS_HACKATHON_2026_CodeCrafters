@@ -1,0 +1,155 @@
+<div class="auth-wrapper">
+  <div class="auth-card" style="max-width: 1000px;">
+
+    @if (isLoading) {
+      <div style="text-align: center; padding: 2rem;">
+        <div class="spinner" style="width: 40px; height: 40px; border: 3px solid #e2e8f0; border-top-color: #3b82f6; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem;"></div>
+        <span>Loading screening report...</span>
+      </div>
+    } @else if (!report) {
+      <div style="text-align: center; padding: 3rem; color: #94a3b8;">
+        <p>Report not found.</p>
+        <button class="btn btn-secondary" (click)="goBack()">Back to Queue</button>
+      </div>
+    } @else {
+
+      <!-- Header -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <button class="btn btn-secondary" style="padding: 0.3rem 0.75rem; font-size: 0.8rem; margin-bottom: 0.75rem;" (click)="goBack()">
+            &larr; Back to Queue
+          </button>
+          <h2 style="margin: 0;">Screening Report</h2>
+          <p style="color: #64748b; margin: 0.25rem 0 0;">{{ report.organisationName || report.applicantName }} &mdash; {{ report.grantTypeName }}</p>
+        </div>
+        <div>
+          <span class="badge" [class]="report.overallResult === 'Eligible' ? 'badge-success' : report.overallResult === 'Ineligible' ? 'badge-danger' : 'badge-warning'"
+                style="font-size: 0.9rem; padding: 0.4rem 1rem;">
+            {{ report.overallResult }}
+          </span>
+        </div>
+      </div>
+
+      @if (successMessage) {
+        <div class="badge badge-success" style="width: 100%; text-align: center; margin-bottom: 1rem; padding: 1rem;">
+          {{ successMessage }}
+        </div>
+      }
+      @if (errorMessage) {
+        <div class="error-alert">{{ errorMessage }}</div>
+      }
+
+      <!-- Summary Stats -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 1rem; text-align: center;">
+          <div style="font-size: 1.5rem; font-weight: 700; color: #16a34a;">{{ report.hardChecksPassed }}</div>
+          <div style="font-size: 0.8rem; color: #64748b;">Hard Passed</div>
+        </div>
+        <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 1rem; text-align: center;">
+          <div style="font-size: 1.5rem; font-weight: 700; color: #dc2626;">{{ report.hardChecksFailed }}</div>
+          <div style="font-size: 0.8rem; color: #64748b;">Hard Failed</div>
+        </div>
+        <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 1rem; text-align: center;">
+          <div style="font-size: 1.5rem; font-weight: 700; color: #d97706;">{{ report.softFlags }}</div>
+          <div style="font-size: 0.8rem; color: #64748b;">Soft Flags</div>
+        </div>
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; text-align: center;">
+          <div style="font-size: 0.85rem; font-weight: 600; color: #334155;">{{ report.generatedAt | date:'medium' }}</div>
+          <div style="font-size: 0.8rem; color: #64748b;">Generated At</div>
+        </div>
+      </div>
+
+      <!-- Hard Rule Checks -->
+      <div style="margin-bottom: 2rem;">
+        <h4 style="margin-bottom: 1rem; color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem;">Hard Rule Checks</h4>
+        @for (check of hardChecks; track check.id) {
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid #f8fafc;">
+            <span style="min-width: 40px; font-weight: 600; color: #334155; font-size: 0.85rem;">{{ check.checkCode }}</span>
+            <span style="flex: 1; font-size: 0.9rem;">{{ check.checkName }}</span>
+            <span class="badge" [class]="check.result === 'Pass' ? 'badge-success' : 'badge-danger'" style="font-size: 0.75rem;">
+              {{ check.result }}
+            </span>
+          </div>
+          @if (check.details) {
+            <div style="padding: 0.25rem 0 0.5rem 52px; font-size: 0.8rem; color: #64748b;">{{ check.details }}</div>
+          }
+        }
+      </div>
+
+      <!-- AI Soft Checks -->
+      @if (softChecks.length > 0) {
+        <div style="margin-bottom: 2rem;">
+          <h4 style="margin-bottom: 1rem; color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.5rem;">AI Soft Checks</h4>
+          @for (check of softChecks; track check.id) {
+            <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid #f8fafc;">
+              <span style="min-width: 40px; font-weight: 600; color: #334155; font-size: 0.85rem;">{{ check.checkCode }}</span>
+              <span style="flex: 1; font-size: 0.9rem;">{{ check.checkName }}</span>
+              @if (check.aiScore !== null) {
+                <span style="font-size: 0.8rem; color: #64748b; min-width: 60px;">Score: {{ check.aiScore }}/100</span>
+              }
+              <span class="badge" [class]="check.result === 'Pass' ? 'badge-success' : 'badge-warning'" style="font-size: 0.75rem;">
+                {{ check.result }}
+              </span>
+            </div>
+            @if (check.details) {
+              <div style="padding: 0.25rem 0 0.5rem 52px; font-size: 0.8rem; color: #64748b;">{{ check.details }}</div>
+            }
+          }
+        </div>
+      }
+
+      <!-- Officer Action Section -->
+      @if (report.officerAction) {
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+          <h4 style="margin: 0 0 0.5rem; color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Officer Decision</h4>
+          <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+            <span class="badge" [class]="report.officerAction === 'ConfirmEligible' ? 'badge-success' : report.officerAction === 'OverrideIneligible' ? 'badge-danger' : 'badge-warning'"
+                  style="font-size: 0.85rem;">
+              {{ report.officerAction }}
+            </span>
+            @if (report.reviewedByName) {
+              <span style="font-size: 0.85rem; color: #64748b;">by {{ report.reviewedByName }}</span>
+            }
+            @if (report.reviewedAt) {
+              <span style="font-size: 0.85rem; color: #94a3b8;">{{ report.reviewedAt | date:'medium' }}</span>
+            }
+          </div>
+          @if (report.officerActionReason) {
+            <p style="margin: 0.75rem 0 0; font-size: 0.9rem; color: #334155;">{{ report.officerActionReason }}</p>
+          }
+        </div>
+      } @else {
+        <!-- Action Buttons -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem;">
+          <h4 style="margin: 0 0 1rem; color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Take Action</h4>
+
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label for="reason">Reason / Notes (required for Override & Clarification)</label>
+            <textarea id="reason" class="form-control" rows="3" [(ngModel)]="actionReason" placeholder="Enter reason or notes..."></textarea>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button class="btn btn-primary" [disabled]="isSubmitting" (click)="takeAction('ConfirmEligible')"
+                    style="background: #16a34a; border-color: #16a34a;">
+              {{ isSubmitting ? 'Processing...' : 'Confirm Eligible' }}
+            </button>
+            <button class="btn btn-primary" [disabled]="isSubmitting" (click)="takeAction('OverrideIneligible')"
+                    style="background: #dc2626; border-color: #dc2626;">
+              Override &mdash; Ineligible
+            </button>
+            <button class="btn btn-primary" [disabled]="isSubmitting" (click)="takeAction('ClarificationRequested')"
+                    style="background: #d97706; border-color: #d97706;">
+              Request Clarification
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>
+
+<style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .badge-danger { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 0.25rem 0.75rem; border-radius: 9999px; }
+  .badge-warning { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; padding: 0.25rem 0.75rem; border-radius: 9999px; }
+</style>

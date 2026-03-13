@@ -25,6 +25,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     public DbSet<Organisation> Organisations => Set<Organisation>();
 
+    public DbSet<DocumentVaultItem> DocumentVaultItems => Set<DocumentVaultItem>();
+
+    public DbSet<ScreeningReport> ScreeningReports => Set<ScreeningReport>();
+
+    public DbSet<ScreeningCheck> ScreeningChecks => Set<ScreeningCheck>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -36,6 +42,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.ApplyConfiguration(new ApplicationWorkflowHistoryConfiguration());
         modelBuilder.ApplyConfiguration(new ApplicationReviewConfiguration());
         modelBuilder.ApplyConfiguration(new OrganisationConfiguration());
+        modelBuilder.ApplyConfiguration(new DocumentVaultItemConfiguration());
+        modelBuilder.ApplyConfiguration(new ScreeningReportConfiguration());
+        modelBuilder.ApplyConfiguration(new ScreeningCheckConfiguration());
 
         modelBuilder.Entity<User>(entity =>
         {

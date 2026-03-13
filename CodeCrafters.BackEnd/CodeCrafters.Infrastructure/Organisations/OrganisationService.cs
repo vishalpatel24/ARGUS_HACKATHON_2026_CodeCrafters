@@ -40,6 +40,7 @@ public sealed class OrganisationService(AppDbContext dbContext) : IOrganisationS
         existing.ContactPersonName = dto.ContactPersonName;
         existing.ContactPersonEmail = dto.ContactPersonEmail;
         existing.ContactPersonPhone = dto.ContactPersonPhone;
+        existing.YearOfEstablishment = dto.YearOfEstablishment;
         existing.IsProfileComplete = true;
         existing.UpdatedAt = DateTime.UtcNow;
 
@@ -59,6 +60,7 @@ public sealed class OrganisationService(AppDbContext dbContext) : IOrganisationS
         ContactPersonName = org.ContactPersonName,
         ContactPersonEmail = org.ContactPersonEmail,
         ContactPersonPhone = org.ContactPersonPhone,
+        YearOfEstablishment = org.YearOfEstablishment,
         IsProfileComplete = org.IsProfileComplete,
         CreatedAt = org.CreatedAt,
         UpdatedAt = org.UpdatedAt

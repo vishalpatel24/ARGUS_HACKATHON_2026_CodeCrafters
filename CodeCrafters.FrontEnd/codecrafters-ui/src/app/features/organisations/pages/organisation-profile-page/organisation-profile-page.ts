@@ -43,7 +43,8 @@ export class OrganisationProfilePageComponent implements OnInit {
       annualBudget: [0, [Validators.required, Validators.min(0)]],
       contactPersonName: ['', [Validators.required, Validators.maxLength(200)]],
       contactPersonEmail: ['', [Validators.required, Validators.email]],
-      contactPersonPhone: ['', [Validators.required, Validators.pattern('^[0-9]{10,20}$')]]
+      contactPersonPhone: ['', [Validators.required, Validators.pattern('^[0-9]{10,20}$')]],
+      yearOfEstablishment: [null, [Validators.required, Validators.min(1850), Validators.max(2026)]]
     });
   }
 

@@ -8,7 +8,9 @@
       <ng-container *ngIf="authService.currentUser() as user; else loginBtn">
         <a routerLink="/dashboard" class="nav-link">Dashboard</a>
         <a *ngIf="user.role === 'Applicant'" routerLink="/organisations/profile" class="nav-link">Organisation</a>
+        <a *ngIf="user.role === 'Applicant'" routerLink="/document-vault" class="nav-link">Document Vault</a>
         <a *ngIf="user.role === 'PlatformAdmin' || user.role === 'ProgramOfficer'" routerLink="/users" class="nav-link">Users</a>
+        <a *ngIf="user.role === 'PlatformAdmin' || user.role === 'ProgramOfficer'" routerLink="/screening" class="nav-link">Screening</a>
         
         <div class="user-menu">
           <span class="user-name">{{ user.name }} ({{ user.role }})</span>

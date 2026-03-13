@@ -1,0 +1,93 @@
+<div class="auth-wrapper">
+  <div class="auth-card" style="max-width: 900px;">
+    <div class="auth-header">
+      <h2>Document Vault</h2>
+      <p>Upload and manage your standing documents for grant applications.</p>
+    </div>
+
+    @if (successMessage) {
+      <div class="badge badge-success" style="width: 100%; text-align: center; margin-bottom: 1rem; padding: 1rem;">
+        {{ successMessage }}
+      </div>
+    }
+
+    @if (errorMessage) {
+      <div class="error-alert">
+        {{ errorMessage }}
+      </div>
+    }
+
+    <!-- Upload Section -->
+    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+      <h4 style="margin: 0 0 1rem; color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Upload Document</h4>
+      <div style="display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap;">
+        <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+          <label for="docType">Document Type</label>
+          <select id="docType" class="form-control" [(ngModel)]="selectedType">
+            <option value="">Select type</option>
+            @for (type of documentTypes; track type.value) {
+              <option [value]="type.value">{{ type.label }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group" style="flex: 2; min-width: 200px; margin-bottom: 0;">
+          <label for="file">File</label>
+          <input type="file" id="file" class="form-control" (change)="onFileSelected($event)"
+            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+        </div>
+        <button class="btn btn-primary" (click)="upload()" [disabled]="isUploading || !selectedType || !selectedFile">
+          {{ isUploading ? 'Uploading...' : 'Upload' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Documents List -->
+    @if (isLoading) {
+      <div style="text-align: center; padding: 2rem;">
+        <div class="spinner" style="width: 40px; height: 40px; border: 3px solid #e2e8f0; border-top-color: #3b82f6; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem;"></div>
+        <span>Loading documents...</span>
+      </div>
+    } @else if (documents.length === 0) {
+      <div style="text-align: center; padding: 3rem; color: #94a3b8;">
+        <p style="font-size: 1.1rem;">No documents uploaded yet.</p>
+        <p>Upload your organisation's standing documents to pre-fill grant applications.</p>
+      </div>
+    } @else {
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="background: #f1f5f9; text-align: left;">
+              <th style="padding: 0.75rem 1rem; font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Type</th>
+              <th style="padding: 0.75rem 1rem; font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">File Name</th>
+              <th style="padding: 0.75rem 1rem; font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Size</th>
+              <th style="padding: 0.75rem 1rem; font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Uploaded</th>
+              <th style="padding: 0.75rem 1rem; font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (doc of documents; track doc.id) {
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 0.75rem 1rem;">
+                  <span class="badge badge-info" style="font-size: 0.75rem;">{{ getTypeLabel(doc.documentType) }}</span>
+                </td>
+                <td style="padding: 0.75rem 1rem; font-size: 0.9rem;">{{ doc.originalFileName }}</td>
+                <td style="padding: 0.75rem 1rem; font-size: 0.85rem; color: #64748b;">{{ formatFileSize(doc.fileSizeBytes) }}</td>
+                <td style="padding: 0.75rem 1rem; font-size: 0.85rem; color: #64748b;">{{ doc.uploadedAt | date:'mediumDate' }}</td>
+                <td style="padding: 0.75rem 1rem;">
+                  <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-secondary" style="padding: 0.3rem 0.75rem; font-size: 0.8rem;" (click)="downloadDocument(doc)">Download</button>
+                    <button class="btn" style="padding: 0.3rem 0.75rem; font-size: 0.8rem; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer;" (click)="deleteDocument(doc)">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
+
+<style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>

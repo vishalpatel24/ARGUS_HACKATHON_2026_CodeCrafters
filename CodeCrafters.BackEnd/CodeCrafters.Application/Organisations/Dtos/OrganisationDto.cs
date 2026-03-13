@@ -12,6 +12,7 @@ public sealed class OrganisationDto
     public string ContactPersonName { get; init; } = string.Empty;
     public string ContactPersonEmail { get; init; } = string.Empty;
     public string ContactPersonPhone { get; init; } = string.Empty;
+    public int YearOfEstablishment { get; init; }
     public bool IsProfileComplete { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime UpdatedAt { get; init; }

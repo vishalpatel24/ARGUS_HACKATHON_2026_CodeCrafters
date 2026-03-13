@@ -45,6 +45,9 @@ public class OrganisationConfiguration : IEntityTypeConfiguration<Organisation>
             .IsRequired()
             .HasMaxLength(20);
 
+        builder.Property(o => o.YearOfEstablishment)
+            .IsRequired();
+
         builder.Property(o => o.IsProfileComplete)
             .HasDefaultValue(false);
 

@@ -1,3 +1,5 @@
+using CodeCrafters.Domain.Entities;
+
 namespace CodeCrafters.Domain.Entities.Organisations;
 
 /// <summary>
@@ -26,6 +28,8 @@ public class Organisation
     public string ContactPersonName { get; set; } = string.Empty;
     public string ContactPersonEmail { get; set; } = string.Empty;
     public string ContactPersonPhone { get; set; } = string.Empty;
+
+    public int YearOfEstablishment { get; set; }
 
     /// <summary>True once all mandatory fields have been submitted.</summary>
     public bool IsProfileComplete { get; set; }

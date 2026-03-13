@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { GrantService, GrantTypeDto } from '../../features/grants/services/grant.service';
 import { AuthService } from '../../features/auth/services/auth.service';
 import { OrganisationService } from '../../features/organisations/services/organisation.service';
@@ -31,6 +32,7 @@ export class HomePageComponent implements OnInit {
   private grantService = inject(GrantService);
   private authService = inject(AuthService);
   private organisationService = inject(OrganisationService);
+  private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
 
   grants: GrantTypeDto[] = [];
@@ -43,7 +45,7 @@ export class HomePageComponent implements OnInit {
   preCheckResult: PreCheckResultModel | null = null;
   preCheck: PreCheckForm = { orgType: '', district: '', fundingAmount: null, durationMonths: null, overheadAmount: null };
 
-  user = this.authService.currentUser();
+  userSignal = this.authService.currentUser;
   isProfileComplete = false;
 
   ngOnInit(): void {
@@ -52,8 +54,8 @@ export class HomePageComponent implements OnInit {
   }
 
   checkUserAndProfile() {
-    this.user = this.authService.currentUser();
-    if (this.user?.role === 'Applicant') {
+    const user = this.userSignal();
+    if (user && user.role === 'Applicant') {
       this.organisationService.getMyOrganisation().subscribe({
         next: (org) => {
           this.isProfileComplete = !!org && org.isProfileComplete;

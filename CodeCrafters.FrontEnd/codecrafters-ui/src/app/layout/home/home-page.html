@@ -1,5 +1,8 @@
 <!-- ═══════ HERO ═══════════════════════════════════════════════════ -->
-<div class="hero">
+<section class="hero bg-gradient">
+  <div class="error-banner" *ngIf="error">
+    {{ error }}
+  </div>
   <div class="hero-content">
     <span class="hero-eyebrow">🏛️ ARGUS Hackathon 2026</span>
     <h1 class="title">Funding that <span>Transforms</span> Communities</h1>
@@ -12,7 +15,7 @@
       <a routerLink="/login" class="btn btn-outline">Login to Dashboard</a>
     </div>
   </div>
-</div>
+</section>
 
 <!-- ═══════ GRANT CARDS ══════════════════════════════════════════ -->
 <div class="grants-section">
@@ -197,11 +200,11 @@
                 </div>
               }
             </div>
-            @if (preCheckResult.eligible) {
-              <a routerLink="/register" class="btn btn-primary" style="margin-top:1rem;display:inline-flex;" (click)="closeDetails()">
-                Start Application →
-              </a>
-            }
+            <div class="result-footer-text" style="margin-top: 1rem; font-size: 0.85rem; color: #64748b;">
+              {{ preCheckResult.eligible 
+                ? 'Login to your dashboard to start the formal application process.' 
+                : 'Please review the programme guidelines or contact us for more information.' }}
+            </div>
           </div>
         }
 
@@ -251,12 +254,14 @@
 
 
         <!-- CTA -->
-        <div class="apply-cta">
+        <div class="apply-cta" *ngIf="!userSignal()">
           <div class="cta-text">
-            <h4>Ready to apply for {{ selectedGrant.name }}?</h4>
-            <p>Create a free account to submit your application online.</p>
+            <h4>Interested in applying?</h4>
+            <p>Create an account or login to access the application portal.</p>
           </div>
-          <a routerLink="/register" class="btn btn-primary" (click)="closeDetails()">Start Application →</a>
+          <div class="detail-actions">
+            <a routerLink="/login" class="btn-primary" (click)="closeDetails()" style="display: block; text-decoration: none; text-align: center;">Login to Apply</a>
+          </div>
         </div>
 
       </div>

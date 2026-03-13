@@ -9,6 +9,7 @@ export interface OrganisationDto {
   contactPersonName: string;
   contactPersonEmail: string;
   contactPersonPhone: string;
+  yearOfEstablishment: number;
   isProfileComplete: boolean;
   createdAt: string;
   updatedAt: string;
@@ -23,4 +24,5 @@ export interface UpsertOrganisationDto {
   contactPersonName: string;
   contactPersonEmail: string;
   contactPersonPhone: string;
+  yearOfEstablishment: number;
 }

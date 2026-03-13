@@ -35,4 +35,8 @@ public sealed class UpsertOrganisationDto
     [Required]
     [Phone]
     public string ContactPersonPhone { get; init; } = string.Empty;
+
+    [Required]
+    [Range(1850, 2026, ErrorMessage = "Year of establishment must be between 1850 and 2026.")]
+    public int YearOfEstablishment { get; init; }
 }

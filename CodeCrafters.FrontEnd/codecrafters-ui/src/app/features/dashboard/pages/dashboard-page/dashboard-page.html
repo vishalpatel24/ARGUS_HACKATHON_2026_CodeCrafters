@@ -24,7 +24,7 @@
       <div class="card-icon">📋</div>
       <h3>My Applications</h3>
       <p>View and manage your submitted grant applications and track their status.</p>
-      <button class="btn btn-primary" [disabled]="!isProfileComplete">
+      <button class="btn btn-primary" [disabled]="!isProfileComplete" routerLink="/applications/apply">
         {{ isProfileComplete ? 'Start New Application' : 'Profile Required' }}
       </button>
     </div>

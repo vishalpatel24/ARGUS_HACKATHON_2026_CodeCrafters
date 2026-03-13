@@ -1,0 +1,249 @@
+<div class="page-container">
+  <div class="grant-header">
+    <div class="badge" *ngIf="grant">{{ grant.code }}</div>
+    <h1>{{ grant ? 'Apply for ' + grant.name : 'Start New Application' }}</h1>
+    <p class="subtitle">{{ grant ? grant.purpose : 'Select a grant programme to begin your application process.' }}</p>
+  </div>
+
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading application...</p>
+  </div>
+
+  <div class="application-card" *ngIf="!isLoading">
+    <!-- Stepper -->
+    <div class="stepper">
+      <div class="step" [class.active]="currentStep >= 0" [class.completed]="currentStep > 0">
+        <div class="step-icon">0</div>
+        <div class="step-label">Select Grant</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
+        <div class="step-icon">1</div>
+        <div class="step-label">Organization</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2">
+        <div class="step-icon">2</div>
+        <div class="step-label">Project</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step" [class.active]="currentStep >= 3" [class.completed]="currentStep > 3">
+        <div class="step-icon">3</div>
+        <div class="step-label">Budget</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step" [class.active]="currentStep >= 4" [class.completed]="currentStep > 4">
+        <div class="step-icon">4</div>
+        <div class="step-label">Declaration</div>
+      </div>
+    </div>
+
+    <form [formGroup]="applyForm" (ngSubmit)="onSubmit()">
+      
+      <!-- STEP 0: Select Grant -->
+      <div class="step-content" *ngIf="currentStep === 0">
+        <div class="grant-selection-grid">
+          <div *ngFor="let g of allGrants" class="grant-option-card" [class.selected]="grant?.id === g.id" (click)="selectGrant(g)">
+            <div class="option-header">
+              <span class="option-code">{{ g.code }}</span>
+              <h4>{{ g.name }}</h4>
+            </div>
+            <p>{{ g.purpose }}</p>
+            <div class="option-footer">
+              <span>Max: ₹{{ (g.fundingMaxAmount / 100000).toFixed(0) }} Lakh</span>
+              <span class="select-tick" *ngIf="grant?.id === g.id">✓ Selected</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 1: Organization Details -->
+      <div class="step-content" *ngIf="currentStep === 1">
+        <h3>Organization Information</h3>
+        <p class="step-desc">Verify your organization details before proceeding.</p>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Legal Name of Organisation</label>
+            <input type="text" formControlName="legalName" readonly class="readonly-input">
+          </div>
+          <div class="form-group">
+            <label>Registration Number</label>
+            <input type="text" formControlName="registrationNumber" readonly class="readonly-input">
+          </div>
+          <div class="form-group">
+            <label>Type of Organisation</label>
+            <input type="text" formControlName="organisationType" readonly class="readonly-input">
+          </div>
+          <div class="form-group">
+            <label>Year of Establishment</label>
+            <input type="number" formControlName="yearOfEstablishment" readonly class="readonly-input">
+          </div>
+          <div class="form-group">
+            <label>State of Registration</label>
+            <input type="text" formControlName="stateOfRegistration" readonly class="readonly-input">
+          </div>
+          <div class="form-group">
+            <label>Annual Operating Budget (₹)</label>
+            <input type="number" formControlName="annualOperatingBudget" readonly class="readonly-input">
+          </div>
+          <div class="form-group">
+            <label>Primary Contact Name</label>
+            <input type="text" formControlName="primaryContactName">
+          </div>
+          <div class="form-group">
+            <label>Primary Contact Email</label>
+            <input type="email" formControlName="primaryContactEmail">
+          </div>
+          <div class="form-group">
+            <label>Primary Contact Phone</label>
+            <input type="text" formControlName="primaryContactPhone">
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Project Details -->
+      <div class="step-content" *ngIf="currentStep === 2">
+        <h3>Project Details</h3>
+        <p class="step-desc">Enter details about the proposed project.</p>
+        
+        <div class="form-grid">
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label>Application Title (Brief descriptive name)</label>
+            <input type="text" formControlName="title" placeholder="e.g. Clean Water Initiative 2026">
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label>Project Title (Formal name)</label>
+            <input type="text" formControlName="projectTitle" placeholder="Enter formal project title">
+          </div>
+          <div class="form-group">
+            <label>Total Requested Amount (₹)</label>
+            <input type="number" formControlName="requestedAmount">
+            <small *ngIf="grant">Min: ₹{{ (grant.fundingMinAmount / 100000).toFixed(0) }} Lakh | Max: ₹{{ (grant.fundingMaxAmount / 100000).toFixed(0) }} Lakh</small>
+          </div>
+          <div class="form-group">
+            <label>Project Start Date</label>
+            <input type="date" formControlName="projectStartDate">
+          </div>
+          <div class="form-group">
+            <label>Project End Date</label>
+            <input type="date" formControlName="projectEndDate">
+          </div>
+
+          <!-- Conditional Fields based on Grant Type -->
+          <ng-container *ngIf="grant?.code === 'CDG'">
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label>Problem Statement</label>
+              <textarea formControlName="problemStatement" rows="3"></textarea>
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label>Proposed Solution</label>
+              <textarea formControlName="proposedSolution" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Target Beneficiaries Count</label>
+              <input type="number" formControlName="targetBeneficiariesCount">
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="grant?.code === 'EIG'">
+            <div class="form-group">
+              <label>Innovation Type</label>
+              <select formControlName="innovationType">
+                <option value="Technology">Technology</option>
+                <option value="Pedagogy">Pedagogy</option>
+                <option value="Operational">Operational</option>
+              </select>
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label>Innovation Description</label>
+              <textarea formControlName="innovationDescription" rows="4"></textarea>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="grant?.code === 'ECAG'">
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label>Thematic Area</label>
+              <input type="text" formControlName="thematicArea" placeholder="e.g. Reforestation, Solar Power">
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label>Environmental Problem Description</label>
+              <textarea formControlName="environmentalProblemDesc" rows="4"></textarea>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- STEP 3: Budget Breakdown -->
+      <div class="step-content" *ngIf="currentStep === 3">
+        <h3>Budget Breakdown</h3>
+        <p class="step-desc">Specify how the funds will be allocated across categories.</p>
+        
+        <div class="form-grid budget-grid">
+          <div class="form-group">
+            <label>Personnel Costs (₹)</label>
+            <input type="number" formControlName="personnelCosts">
+          </div>
+          <div class="form-group">
+            <label>Equipment & Materials (₹)</label>
+            <input type="number" formControlName="equipmentAndMaterials">
+          </div>
+          <div class="form-group">
+            <label>Travel & Logistics (₹)</label>
+            <input type="number" formControlName="travelAndLogistics">
+          </div>
+          <div class="form-group">
+            <label>Training & Workshops (₹)</label>
+            <input type="number" formControlName="trainingAndWorkshops">
+          </div>
+          <div class="form-group">
+            <label>Technology & Software (₹)</label>
+            <input type="number" formControlName="technologySoftware">
+          </div>
+          <div class="form-group">
+            <label>Admin & Overheads (₹)</label>
+            <input type="number" formControlName="overheads">
+          </div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label>Budget Justification</label>
+            <textarea formControlName="budgetJustification" rows="3" placeholder="Briefly explain the rationale for these costs"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: Declaration -->
+      <div class="step-content" *ngIf="currentStep === 4">
+        <h3>Declaration & Submission</h3>
+        <p class="step-desc">Final step to submit your application.</p>
+        
+        <div class="declaration-box">
+          <p>I hereby declare that the information provided in this application is true and correct to the best of my knowledge. I understand that any false information may lead to the rejection of my application or termination of the grant if awarded.</p>
+        </div>
+
+        <div class="form-grid" style="margin-top: 2rem;">
+          <div class="form-group">
+            <label>Authorised Signatory Name</label>
+            <input type="text" formControlName="authorisedSignatoryName" placeholder="Enter Full Name">
+          </div>
+          <div class="form-group">
+            <label>Designation</label>
+            <input type="text" formControlName="designation" placeholder="e.g. Director, Managing Trustee">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="prevStep()" *ngIf="currentStep > 0">Previous</button>
+        <div style="flex-grow: 1;"></div>
+        <button type="button" class="btn-primary" (click)="nextStep()" *ngIf="currentStep < 4" [disabled]="currentStep === 0 && !grant">
+          Next Step
+        </button>
+        <button type="submit" class="btn-success" *ngIf="currentStep === 4" [disabled]="isSubmitting || applyForm.invalid">
+          {{ isSubmitting ? 'Submitting...' : 'Submit Application' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
