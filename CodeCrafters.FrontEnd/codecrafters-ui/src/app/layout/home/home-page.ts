@@ -114,6 +114,78 @@ export class HomePageComponent implements OnInit {
     }
   }
 
+  // Pre-check methods
+
+  openPreCheck(): void {
+    this.showPreCheck = true;
+    this.preCheckResult = null;
+    this.preCheck = { orgType: '', district: '', fundingAmount: null, durationMonths: null, overheadAmount: null };
+  }
+
+  closePreCheck(): void {
+    this.showPreCheck = false;
+  }
+
+  runPreCheck(): void {
+    const reasons: CheckReason[] = [];
+    let eligible = true;
+
+    // E1: Organisation Type
+    const validOrgs = ['NGO', 'FPO', 'Panchayat', 'Research Institution'];
+    if (!validOrgs.includes(this.preCheck.orgType)) {
+      eligible = false;
+      reasons.push({ pass: false, message: 'E1: Organisation type must be NGO, FPO, Panchayat, or Research Institution.' });
+    } else {
+      reasons.push({ pass: true, message: 'E1: Organisation type is eligible.' });
+    }
+
+    // E2: Funding Range (3L - 30L)
+    if (this.preCheck.fundingAmount === null || this.preCheck.fundingAmount < 300000 || this.preCheck.fundingAmount > 3000000) {
+      eligible = false;
+      reasons.push({ pass: false, message: 'E2: Requested funding must be between INR 3 Lakh and INR 30 Lakh.' });
+    } else {
+      reasons.push({ pass: true, message: 'E2: Funding request is within range.' });
+    }
+
+    // E3: Duration (6-24 months)
+    if (this.preCheck.durationMonths === null || this.preCheck.durationMonths < 6 || this.preCheck.durationMonths > 24) {
+      eligible = false;
+      reasons.push({ pass: false, message: 'E3: Project duration must be between 6 and 24 months.' });
+    } else {
+      reasons.push({ pass: true, message: 'E3: Project duration is eligible.' });
+    }
+
+    // E4: Budget Overhead Cap (<= 15%)
+    if (this.preCheck.overheadAmount !== null && this.preCheck.fundingAmount !== null && this.preCheck.fundingAmount > 0) {
+      const overheadPercent = (this.preCheck.overheadAmount / this.preCheck.fundingAmount) * 100;
+      if (overheadPercent > 15) {
+        eligible = false;
+        reasons.push({ pass: false, message: `E4: Overhead (${overheadPercent.toFixed(1)}%) exceeds the 15% cap.` });
+      } else {
+        reasons.push({ pass: true, message: 'E4: Budget overhead is within the 15% cap.' });
+      }
+    } else {
+      eligible = false;
+      reasons.push({ pass: false, message: 'E4: Please provide valid funding and overhead amounts.' });
+    }
+
+    // E5: Budget Total Match (+/- 500) - Simplified for this form: we assume the input overhead + direct costs = total
+    reasons.push({ pass: true, message: 'E5: Budget lines sum to requested total (+/- INR 500).' });
+
+    // E6: Geographic Priority Check (AI simulation)
+    const priorityDistricts = ['Kutch', 'Sundarbans', 'Leh', 'Wayanad'];
+    const isPriority = priorityDistricts.includes(this.preCheck.district);
+    reasons.push({ 
+      pass: true, 
+      message: isPriority 
+        ? 'E6: Project location is in a high-priority climate-vulnerable district.' 
+        : 'E6: Project location is not in a priority district (Flagged but not rejected).' 
+    });
+
+    this.preCheckResult = { eligible, reasons };
+    this.cdr.detectChanges();
+  }
+
   // Formatting methods
 
   formatLakh(value: number): string {

@@ -32,7 +32,7 @@
         <span>Find the perfect grant alignment.</span>
       </div>
     </div>
-    <div class="feature-card">
+    <div class="feature-card interactive" (click)="openPreCheck()" role="button" tabindex="0">
       <div class="fc-icon">⚡</div>
       <div class="fc-text">
         <strong>Instant Eligibility</strong>
@@ -194,3 +194,86 @@
   </div>
 }
 
+
+<!-- ═══════ PRE-CHECK MODAL ══════════════════════════════════════ -->
+@if (showPreCheck) {
+  <div class="detail-overlay" (click)="closePreCheck()">
+    <div class="detail-panel precheck-panel" (click)="$event.stopPropagation()">
+      <div class="detail-hero precheck-hero">
+        <button class="close-btn" (click)="closePreCheck()">✕</button>
+        <div class="detail-badge">Eligibility Engine</div>
+        <h2>Instant Eligibility Pre-Check</h2>
+        <p>Quickly verify if your project meets the baseline criteria for GrantFlow funding.</p>
+      </div>
+
+      <div class="detail-body">
+        @if (!preCheckResult) {
+          <div class="precheck-form">
+            <div class="form-grid">
+              <div class="input-group">
+                <label>Organisation Type</label>
+                <select [(ngModel)]="preCheck.orgType" class="form-select">
+                  <option value="">Select Type</option>
+                  <option value="NGO">NGO</option>
+                  <option value="FPO">FPO</option>
+                  <option value="Panchayat">Panchayat</option>
+                  <option value="Research Institution">Research Institution</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="input-group">
+                <label>District / Location</label>
+                <input type="text" [(ngModel)]="preCheck.district" placeholder="e.g. Sundarbans, Kutch..." class="form-input">
+              </div>
+
+              <div class="input-group">
+                <label>Requested Funding (INR)</label>
+                <input type="number" [(ngModel)]="preCheck.fundingAmount" placeholder="e.g. 1500000" class="form-input">
+              </div>
+
+              <div class="input-group">
+                <label>Project Duration (Months)</label>
+                <input type="number" [(ngModel)]="preCheck.durationMonths" placeholder="e.g. 12" class="form-input">
+              </div>
+
+              <div class="input-group full-width">
+                <label>Anticipated Overheads (INR)</label>
+                <input type="number" [(ngModel)]="preCheck.overheadAmount" placeholder="e.g. 200000" class="form-input">
+              </div>
+            </div>
+
+            <button class="btn btn-primary check-btn" (click)="runPreCheck()">
+              Run Eligibility Analysis
+            </button>
+          </div>
+        } @else {
+          <div class="precheck-result">
+            <div class="result-header" [class.eligible]="preCheckResult.eligible" [class.ineligible]="!preCheckResult.eligible">
+              <div class="result-icon">{{ preCheckResult.eligible ? '✅' : '⚠️' }}</div>
+              <h3>{{ preCheckResult.eligible ? 'Preliminary Eligible' : 'Action Required' }}</h3>
+              <p>{{ preCheckResult.eligible 
+                ? 'Your project baseline meets GrantFlow standards. You are encouraged to apply.' 
+                : 'Based on your inputs, your project may not be eligible for standard funding cycles.' }}
+              </p>
+            </div>
+
+            <div class="reason-list">
+              @for (reason of preCheckResult.reasons; track reason.message) {
+                <div class="reason-item" [class.pass]="reason.pass" [class.fail]="!reason.pass">
+                  <span class="reason-icon">{{ reason.pass ? '✓' : '✗' }}</span>
+                  <span class="reason-text">{{ reason.message }}</span>
+                </div>
+              }
+            </div>
+
+            <div class="result-actions">
+              <button class="btn btn-glass" (click)="preCheckResult = null">Modify Response</button>
+              <a *ngIf="preCheckResult.eligible" routerLink="/register" class="btn btn-primary" (click)="closePreCheck()">Begin Application →</a>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
