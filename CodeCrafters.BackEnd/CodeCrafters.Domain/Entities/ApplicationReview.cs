@@ -1,6 +1,6 @@
 using CodeCrafters.Domain.Common;
 
-namespace CodeCrafters.Domain.Entities.Applications;
+namespace CodeCrafters.Domain.Entities;
 
 public class ApplicationReview : AuditableEntity
 {
@@ -12,6 +12,7 @@ public class ApplicationReview : AuditableEntity
     public string ReviewStatus { get; set; } = "Pending";
     public DateTimeOffset? SubmittedAt { get; set; }
     
-    public Application Application { get; set; } = null!;
+    public Applications.Application Application { get; set; } = null!;
     public User Reviewer { get; set; } = null!;
 }
+

@@ -1,7 +1,6 @@
 using CodeCrafters.Domain.Common;
-using CodeCrafters.Domain.Entities.Grants;
 
-namespace CodeCrafters.Domain.Entities.Applications;
+namespace CodeCrafters.Domain.Entities;
 
 public class ApplicationWorkflowHistory : AuditableEntity
 {
@@ -13,7 +12,8 @@ public class ApplicationWorkflowHistory : AuditableEntity
     public string StatusLabel { get; set; } = string.Empty;
     public string? ActionNotes { get; set; }
     
-    public Application Application { get; set; } = null!;
+    public Applications.Application Application { get; set; } = null!;
     public GrantWorkflowStage Stage { get; set; } = null!;
     public User? TriggeredByUser { get; set; }
 }
+

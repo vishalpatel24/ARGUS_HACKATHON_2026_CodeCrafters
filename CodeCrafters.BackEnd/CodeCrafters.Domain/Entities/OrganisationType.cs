@@ -1,4 +1,4 @@
-namespace CodeCrafters.Domain.Entities.Organisation;
+namespace CodeCrafters.Domain.Entities;
 
 public enum OrganisationType
 {

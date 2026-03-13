@@ -1,6 +1,4 @@
 using CodeCrafters.Domain.Entities;
-using CodeCrafters.Domain.Entities.Grants;
-using CodeCrafters.Domain.Entities.Applications;
 using CodeCrafters.Infrastructure.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +16,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     public DbSet<GrantDocument> GrantDocuments => Set<GrantDocument>();
 
-    public DbSet<Application> Applications => Set<Application>();
+    public DbSet<CodeCrafters.Domain.Entities.Applications.Application> Applications => Set<CodeCrafters.Domain.Entities.Applications.Application>();
 
     public DbSet<ApplicationWorkflowHistory> ApplicationWorkflowHistories => Set<ApplicationWorkflowHistory>();
 

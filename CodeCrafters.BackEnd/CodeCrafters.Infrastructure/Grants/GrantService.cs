@@ -1,6 +1,6 @@
 using CodeCrafters.Application.Grants.Dtos;
 using CodeCrafters.Application.Grants.Services;
-using CodeCrafters.Domain.Entities.Grants;
+using CodeCrafters.Domain.Entities;
 using CodeCrafters.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 

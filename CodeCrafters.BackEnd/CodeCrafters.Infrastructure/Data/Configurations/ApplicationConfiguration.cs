@@ -1,12 +1,12 @@
-using CodeCrafters.Domain.Entities.Applications;
+using CodeCrafters.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CodeCrafters.Infrastructure.Data.Configurations;
 
-public class ApplicationConfiguration : IEntityTypeConfiguration<Application>
+public class ApplicationConfiguration : IEntityTypeConfiguration<CodeCrafters.Domain.Entities.Applications.Application>
 {
-    public void Configure(EntityTypeBuilder<Application> builder)
+    public void Configure(EntityTypeBuilder<CodeCrafters.Domain.Entities.Applications.Application> builder)
     {
         builder.HasKey(a => a.Id);
         

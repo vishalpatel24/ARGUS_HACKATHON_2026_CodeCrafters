@@ -1,4 +1,4 @@
-namespace CodeCrafters.Domain.Entities.Grants;
+namespace CodeCrafters.Domain.Entities;
 
 public class GrantDocument
 {

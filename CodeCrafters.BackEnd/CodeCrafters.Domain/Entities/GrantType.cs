@@ -1,4 +1,4 @@
-namespace CodeCrafters.Domain.Entities.Grants;
+namespace CodeCrafters.Domain.Entities;
 
 /// <summary>
 /// Stores the Programme Summary attributes for each grant programme (CDG, EIG, ECAG).
@@ -37,3 +37,4 @@ public class GrantType
 
     public ICollection<GrantDocument> RequiredDocuments { get; set; } = new List<GrantDocument>();
 }
+

@@ -1,6 +1,6 @@
 using CodeCrafters.Domain.Common;
 
-namespace CodeCrafters.Domain.Entities.Organisation;
+namespace CodeCrafters.Domain.Entities;
 
 public class Organisation : AuditableEntity
 {

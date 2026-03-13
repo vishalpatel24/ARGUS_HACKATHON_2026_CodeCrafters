@@ -1,6 +1,6 @@
 using CodeCrafters.Domain.Common;
 
-namespace CodeCrafters.Domain.Entities.Grants;
+namespace CodeCrafters.Domain.Entities;
 
 public class GrantWorkflowStage : AuditableEntity
 {
@@ -16,3 +16,4 @@ public class GrantWorkflowStage : AuditableEntity
 
     public GrantType GrantType { get; set; } = null!;
 }
+

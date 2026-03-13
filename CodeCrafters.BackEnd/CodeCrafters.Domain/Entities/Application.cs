@@ -1,5 +1,5 @@
 using CodeCrafters.Domain.Common;
-using CodeCrafters.Domain.Entities.Grants;
+using CodeCrafters.Domain.Entities;
 
 namespace CodeCrafters.Domain.Entities.Applications;
 
@@ -24,3 +24,4 @@ public class Application : AuditableEntity
 
     public ICollection<ApplicationWorkflowHistory> WorkflowHistories { get; set; } = new List<ApplicationWorkflowHistory>();
 }
+

@@ -1,4 +1,4 @@
-using CodeCrafters.Domain.Entities.Organisation;
+using CodeCrafters.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
