@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CodeCrafters.Application\CodeCrafters.Application.csproj" />
     <ProjectReference Include="..\CodeCrafters.Infrastructure\CodeCrafters.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\CodeCrafters.ServiceDefaults\CodeCrafters.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

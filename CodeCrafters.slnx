@@ -9,4 +9,5 @@
     <Project Path="CodeCrafters.BackEnd/CodeCrafters.Domain/CodeCrafters.Domain.csproj" />
     <Project Path="CodeCrafters.BackEnd/CodeCrafters.Infrastructure/CodeCrafters.Infrastructure.csproj" />
   </Folder>
+  <Project Path="CodeCrafters.ServiceDefaults/CodeCrafters.ServiceDefaults.csproj" />
 </Solution>

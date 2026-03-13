@@ -1,13 +1,15 @@
 using CodeCrafters.Api.Middleware;
 using CodeCrafters.Application.DependencyInjection;
 using CodeCrafters.Infrastructure.DependencyInjection;
+using CodeCrafters.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddHealthChecks();
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
