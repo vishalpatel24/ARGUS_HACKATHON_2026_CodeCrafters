@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { MainLayoutComponent } from './main-layout/main-layout';
 import { HomePageComponent } from './home/home-page';
 
@@ -11,7 +12,8 @@ import { HomePageComponent } from './home/home-page';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports: [
     MainLayoutComponent,
