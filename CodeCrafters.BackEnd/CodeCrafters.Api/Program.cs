@@ -14,7 +14,10 @@ builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.OperationFilter<CodeCrafters.Api.Swagger.UploadOperationFilter>();
+});
 
 builder.Services.AddCors(options =>
 {
