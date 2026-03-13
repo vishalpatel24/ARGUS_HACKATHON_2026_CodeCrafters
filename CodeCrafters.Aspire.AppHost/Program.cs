@@ -8,18 +8,17 @@ var db = sql.AddDatabase("codecraftersdb");
 
 // Backend API project orchestrated by Aspire with database reference.
 // Uses the generated Projects.CodeCrafters_Api metadata type from the AppHost SDK.
+// Configure the existing "http" endpoint on a fixed port so the Angular proxy (proxy.conf.json → localhost:5000) can target it.
 var api = builder.AddProject<Projects.CodeCrafters_Api>("api")
+    .WithHttpEndpoint(name: "api-http", port: 5000)
     .WithReference(db)
     .WaitFor(db);
 
-// Frontend Angular app placeholder orchestrated via NPM (when the app exists).
-// This assumes an npm-based Angular app in CodeCrafters.FrontEnd\\codecrafters-angular.
-// Uncomment and adjust when the Angular project is initialized with package.json:
-//
-// var frontend = builder.AddNpmApp(
-//         name: "frontend",
-//         workingDirectory: "..\\CodeCrafters.FrontEnd\\codecrafters-angular",
-//         scriptName: "start")
-//     .WithReference(api);
+// Frontend Angular app: runs "npm start" (ng serve --proxy-config proxy.conf.json --open).
+// Use distinct endpoint name to avoid conflict with any default "http" endpoint.
+var frontend = builder.AddJavaScriptApp("frontend", "../CodeCrafters.FrontEnd/codecrafters-ui", "start")
+    .WithHttpEndpoint(name: "web")
+    .WithExternalHttpEndpoints()
+    .WaitFor(api);
 
 builder.Build().Run();
