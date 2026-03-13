@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Aspire/">
+    <Project Path="CodeCrafters.Aspire.AppHost/CodeCrafters.Aspire.AppHost.csproj" />
+  </Folder>
+  <Folder Name="/Backend/">
+    <Project Path="CodeCrafters.BackEnd/CodeCrafters.Api/CodeCrafters.Api.csproj" />
+    <Project Path="CodeCrafters.BackEnd/CodeCrafters.Application/CodeCrafters.Application.csproj" />
+    <Project Path="CodeCrafters.BackEnd/CodeCrafters.Database/CodeCrafters.Database.csproj" />
+    <Project Path="CodeCrafters.BackEnd/CodeCrafters.Domain/CodeCrafters.Domain.csproj" />
+    <Project Path="CodeCrafters.BackEnd/CodeCrafters.Infrastructure/CodeCrafters.Infrastructure.csproj" />
+  </Folder>
+</Solution>

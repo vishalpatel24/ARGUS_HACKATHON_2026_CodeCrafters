@@ -1,0 +1,13 @@
+.vs/
+CodeCrafters.Aspire.AppHost/bin/
+CodeCrafters.Aspire.AppHost/obj/
+CodeCrafters.BackEnd/CodeCrafters.Api/bin/
+CodeCrafters.BackEnd/CodeCrafters.Api/obj/
+CodeCrafters.BackEnd/CodeCrafters.Application/bin/
+CodeCrafters.BackEnd/CodeCrafters.Application/obj/
+CodeCrafters.BackEnd/CodeCrafters.Database/bin/
+CodeCrafters.BackEnd/CodeCrafters.Database/obj/
+CodeCrafters.BackEnd/CodeCrafters.Domain/bin/
+CodeCrafters.BackEnd/CodeCrafters.Domain/obj/
+CodeCrafters.BackEnd/CodeCrafters.Infrastructure/bin/
+CodeCrafters.BackEnd/CodeCrafters.Infrastructure/obj/

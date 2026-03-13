@@ -1,0 +1,10 @@
+<Project Sdk="MSBuild.Sdk.SqlProj/3.1.0">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <!-- SQL Server 2022 compatibility (Sql160) -->
+    <SqlServerVersion>Sql160</SqlServerVersion>
+  </PropertyGroup>
+
+</Project>
+
