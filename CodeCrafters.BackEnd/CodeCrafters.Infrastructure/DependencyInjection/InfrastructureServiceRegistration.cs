@@ -28,6 +28,7 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<CodeCrafters.Application.Grants.Services.IGrantService, CodeCrafters.Infrastructure.Grants.GrantService>();
+        services.AddScoped<CodeCrafters.Application.Organisations.Services.IOrganisationService, CodeCrafters.Infrastructure.Organisations.OrganisationService>();
 
         return services;
     }

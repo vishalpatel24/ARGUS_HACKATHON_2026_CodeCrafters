@@ -1,6 +1,7 @@
-// Home page — grants listing & detail overlay
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { GrantService, GrantTypeDto } from '../../features/grants/services/grant.service';
+import { AuthService } from '../../features/auth/services/auth.service';
+import { OrganisationService } from '../../features/organisations/services/organisation.service';
 
 interface PreCheckForm {
   orgType: string;
@@ -27,6 +28,11 @@ interface PreCheckResultModel {
   styleUrls: ['./home-page.scss']
 })
 export class HomePageComponent implements OnInit {
+  private grantService = inject(GrantService);
+  private authService = inject(AuthService);
+  private organisationService = inject(OrganisationService);
+  private cdr = inject(ChangeDetectorRef);
+
   grants: GrantTypeDto[] = [];
   selectedGrant: GrantTypeDto | null = null;
   isLoading = true;
@@ -37,12 +43,32 @@ export class HomePageComponent implements OnInit {
   preCheckResult: PreCheckResultModel | null = null;
   preCheck: PreCheckForm = { orgType: '', district: '', fundingAmount: null, durationMonths: null, overheadAmount: null };
 
-  constructor(
-    private grantService: GrantService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  user = this.authService.currentUser();
+  isProfileComplete = false;
 
   ngOnInit(): void {
+    this.loadGrants();
+    this.checkUserAndProfile();
+  }
+
+  checkUserAndProfile() {
+    this.user = this.authService.currentUser();
+    if (this.user?.role === 'Applicant') {
+      this.organisationService.getMyOrganisation().subscribe({
+        next: (org) => {
+          this.isProfileComplete = !!org && org.isProfileComplete;
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.isProfileComplete = false;
+          this.cdr.detectChanges();
+        }
+      });
+    }
+  }
+
+  loadGrants() {
+    this.isLoading = true;
     this.grantService.getGrants().subscribe({
       next: (data) => {
         this.grants = data;
@@ -51,30 +77,33 @@ export class HomePageComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to load grants', err);
-        this.error = 'Unable to load grant programmes. Please try again.';
+        this.error = 'Failed to load grants. Please check your connection.';
         this.isLoading = false;
         this.cdr.detectChanges();
       }
     });
   }
 
-  viewDetails(grantId: string): void {
+  viewDetails(grantId: string) {
     this.grantService.getGrantById(grantId).subscribe({
       next: (data) => {
         this.selectedGrant = data;
         this.resetPreCheck();
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Failed to load grant details', err)
+      error: (err) => {
+        console.error('Failed to load grant details', err);
+        this.cdr.detectChanges();
+      }
     });
   }
 
-  closeDetails(): void {
+  closeDetails() {
     this.selectedGrant = null;
     this.resetPreCheck();
   }
 
-  closeOnBackdrop(event: MouseEvent): void {
+  closeOnBackdrop(event: MouseEvent) {
     if ((event.target as HTMLElement).classList.contains('detail-overlay')) {
       this.closeDetails();
     }
@@ -171,14 +200,10 @@ export class HomePageComponent implements OnInit {
   }
 
   formatLakh(value: number): string {
-    if (value >= 10_000_000) return `${(value / 10_000_000).toFixed(0)} Cr`;
-    if (value >= 100_000)    return `${(value / 100_000).toFixed(0)} L`;
-    return value.toLocaleString('en-IN');
+    return (value / 100000).toFixed(1) + ' Lakh';
   }
 
   formatCrore(value: number): string {
-    if (value >= 10_000_000) return `${(value / 10_000_000).toFixed(0)} Crore`;
-    if (value >= 100_000)    return `${(value / 100_000).toFixed(0)} Lakh`;
-    return value.toLocaleString('en-IN');
+    return (value / 10000000).toFixed(1) + ' Crore';
   }
 }

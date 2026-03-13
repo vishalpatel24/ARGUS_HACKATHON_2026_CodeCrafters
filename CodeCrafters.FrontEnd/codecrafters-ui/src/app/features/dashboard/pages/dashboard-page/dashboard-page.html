@@ -4,12 +4,29 @@
     <p>Role: <span class="badge role-badge">{{ user.role }}</span></p>
   </div>
 
+  @if (user.role === 'Applicant' && !isOrgLoading) {
+    @if (!isProfileComplete) {
+      <div class="error-alert" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+        <span style="font-size: 1.5rem;">⚠️</span>
+        <div>
+          <h4 style="margin: 0;">Organisation Profile Incomplete</h4>
+          <p style="margin: 0.2rem 0 0; font-size: 0.9rem;">
+            Please <a routerLink="/organisations/profile" style="color: inherit; font-weight: 700; text-decoration: underline;">complete your organisation profile</a> 
+            linked in the navigation bar before starting any grant applications.
+          </p>
+        </div>
+      </div>
+    }
+  }
+
   <div class="dashboard-grid">
     <div class="card" *ngIf="user.role === 'Applicant'">
       <div class="card-icon">📋</div>
       <h3>My Applications</h3>
       <p>View and manage your submitted grant applications and track their status.</p>
-      <button class="btn btn-primary">Start New Application</button>
+      <button class="btn btn-primary" [disabled]="!isProfileComplete">
+        {{ isProfileComplete ? 'Start New Application' : 'Profile Required' }}
+      </button>
     </div>
 
     <div class="card" *ngIf="user.role === 'GrantReviewer' || user.role === 'ProgramOfficer'">

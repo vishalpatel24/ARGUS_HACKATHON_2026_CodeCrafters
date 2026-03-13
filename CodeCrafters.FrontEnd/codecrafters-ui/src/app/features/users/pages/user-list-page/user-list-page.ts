@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { UserService } from '../../../auth/services/user.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { UserResponseDto } from '../../../auth/models/auth.models';
@@ -12,10 +12,13 @@ import { UserResponseDto } from '../../../auth/models/auth.models';
 export class UserListPageComponent implements OnInit {
   users: UserResponseDto[] = [];
   currentUser: UserResponseDto | null = null;
+  isLoading = true;
+  error: string | null = null;
 
   constructor(
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {
     this.currentUser = this.authService.currentUser();
   }
@@ -25,8 +28,20 @@ export class UserListPageComponent implements OnInit {
   }
 
   loadUsers() {
-    this.userService.getUsers().subscribe(users => {
-      this.users = users;
+    this.isLoading = true;
+    this.error = null;
+    this.userService.getUsers().subscribe({
+      next: (users) => {
+        this.users = users;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load users', err);
+        this.error = 'Failed to load users. You might not have permission to view this list.';
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 

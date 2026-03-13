@@ -1,45 +1,35 @@
-using CodeCrafters.Domain.Common;
+namespace CodeCrafters.Domain.Entities.Organisations;
 
-namespace CodeCrafters.Domain.Entities;
-
-public class Organisation : AuditableEntity
+/// <summary>
+/// Represents an applicant organisation's profile. One per Applicant user.
+/// </summary>
+public class Organisation
 {
+    public Guid Id { get; set; }
+
+    /// <summary>Foreign key to the Applicant user who owns this profile.</summary>
+    public Guid UserId { get; set; }
+    public User? User { get; set; }
+
     public string Name { get; set; } = string.Empty;
+    public string RegistrationNumber { get; set; } = string.Empty;
 
-    public OrganisationType OrganisationType { get; set; }
+    /// <summary>Type stored as string e.g. NGO, Trust, Section8Company, Society, etc.</summary>
+    public string Type { get; set; } = string.Empty;
 
-    public string? RegistrationNumber { get; set; }
+    /// <summary>Indian state name.</summary>
+    public string State { get; set; } = string.Empty;
 
-    public int? YearEstablished { get; set; }
+    /// <summary>Annual budget in INR.</summary>
+    public decimal AnnualBudget { get; set; }
 
-    public string? AddressLine1 { get; set; }
+    public string ContactPersonName { get; set; } = string.Empty;
+    public string ContactPersonEmail { get; set; } = string.Empty;
+    public string ContactPersonPhone { get; set; } = string.Empty;
 
-    public string? AddressLine2 { get; set; }
+    /// <summary>True once all mandatory fields have been submitted.</summary>
+    public bool IsProfileComplete { get; set; }
 
-    public string? City { get; set; }
-
-    public string? State { get; set; }
-
-    public string? Country { get; set; }
-
-    public string? PostalCode { get; set; }
-
-    public string? Website { get; set; }
-
-    public string? Email { get; set; }
-
-    public string? PhoneNumber { get; set; }
-
-    public decimal? AnnualBudget { get; set; }
-
-    public int? NumberOfEmployees { get; set; }
-
-    public string? PrimaryContactName { get; set; }
-
-    public string? PrimaryContactEmail { get; set; }
-
-    public string? PrimaryContactPhone { get; set; }
-
-    public string? Description { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }
-

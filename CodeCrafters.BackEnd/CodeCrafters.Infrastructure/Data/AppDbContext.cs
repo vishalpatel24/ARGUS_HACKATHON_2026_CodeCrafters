@@ -1,4 +1,5 @@
 using CodeCrafters.Domain.Entities;
+using CodeCrafters.Domain.Entities.Organisations;
 using CodeCrafters.Infrastructure.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     public DbSet<ApplicationReview> ApplicationReviews => Set<ApplicationReview>();
 
+    public DbSet<Organisation> Organisations => Set<Organisation>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -32,6 +35,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.ApplyConfiguration(new ApplicationConfiguration());
         modelBuilder.ApplyConfiguration(new ApplicationWorkflowHistoryConfiguration());
         modelBuilder.ApplyConfiguration(new ApplicationReviewConfiguration());
+        modelBuilder.ApplyConfiguration(new OrganisationConfiguration());
 
         modelBuilder.Entity<User>(entity =>
         {

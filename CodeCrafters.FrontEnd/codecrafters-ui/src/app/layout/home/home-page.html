@@ -82,6 +82,7 @@
       }
     </div>
   }
+</div>
 
 <!-- ═══════ DETAIL OVERLAY ══════════════════════════════════════ -->
 @if (selectedGrant) {
@@ -109,7 +110,7 @@
                 <div class="precheck-banner-subtitle">No sign-up required — get an instant result in 30 seconds</div>
               </div>
             </div>
-            <button class="precheck-cta-btn">Check My Eligibility →</button>
+            <button class="precheck-cta-btn" (click)="openPreCheck()">Check My Eligibility →</button>
           </div>
         }
 
@@ -250,15 +251,13 @@
 
 
         <!-- CTA -->
-        @if (!showPreCheck && !preCheckResult) {
-          <div class="apply-cta">
-            <div class="cta-text">
-              <h4>Ready to apply for {{ selectedGrant?.name }}?</h4>
-              <p>Create a free account to submit your application online.</p>
-            </div>
-            <a routerLink="/register" class="btn btn-primary" (click)="closeDetails()">Start Application →</a>
+        <div class="apply-cta">
+          <div class="cta-text">
+            <h4>Ready to apply for {{ selectedGrant.name }}?</h4>
+            <p>Create a free account to submit your application online.</p>
           </div>
-        }
+          <a routerLink="/register" class="btn btn-primary" (click)="closeDetails()">Start Application →</a>
+        </div>
 
       </div>
     </div>

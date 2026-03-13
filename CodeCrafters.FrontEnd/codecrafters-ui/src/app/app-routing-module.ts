@@ -23,6 +23,11 @@ const routes: Routes = [
         path: 'users', 
         canActivate: [authGuard],
         loadChildren: () => import('./features/users/users-module').then(m => m.UsersModule) 
+      },
+      {
+        path: 'organisations',
+        canActivate: [authGuard],
+        loadChildren: () => import('./features/organisations/organisations-module').then(m => m.OrganisationsModule)
       }
     ]
   },

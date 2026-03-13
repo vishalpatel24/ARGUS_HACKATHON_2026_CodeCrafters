@@ -1,36 +1,66 @@
 <div class="page-container">
   <div class="page-header">
     <h2>User Management</h2>
-    <a *ngIf="currentUser?.role === 'PlatformAdmin'" routerLink="create" class="btn btn-primary">Create User</a>
+    @if (currentUser?.role === 'PlatformAdmin') {
+      <a routerLink="create" class="btn btn-primary">Create User</a>
+    }
   </div>
 
-  <div class="table-container">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Status</th>
-          <th *ngIf="currentUser?.role === 'PlatformAdmin'">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td><span class="badge role-badge">{{ user.role }}</span></td>
-          <td>
-            <span class="badge" [ngClass]="user.isActive ? 'badge-success' : 'badge-danger'">
-              {{ user.isActive ? 'Active' : 'Inactive' }}
-            </span>
-          </td>
-          <td *ngIf="currentUser?.role === 'PlatformAdmin'" class="actions-cell">
-            <a [routerLink]="['edit', user.id]" class="btn-icon btn-edit">Edit</a>
-            <button *ngIf="user.isActive" (click)="deactivate(user.id)" class="btn-icon btn-danger">Deactivate</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  @if (isLoading) {
+    <div style="text-align: center; padding: 3rem;">
+      <div class="spinner" style="width: 40px; height: 40px; border: 3px solid #e2e8f0; border-top-color: #3b82f6; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem;"></div>
+      <span>Loading users...</span>
+    </div>
+  } @else if (error) {
+    <div class="error-alert" style="margin-top: 2rem; border-left: 4px solid #ef4444; background: #fef2f2; color: #991b1b; padding: 1rem; border-radius: 0.5rem;">
+      <strong>Error:</strong> {{ error }}
+    </div>
+  } @else {
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            @if (currentUser?.role === 'PlatformAdmin') {
+              <th>Actions</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users; track user.id) {
+            <tr>
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td><span class="badge role-badge">{{ user.role }}</span></td>
+              <td>
+                <span class="badge" [ngClass]="user.isActive ? 'badge-success' : 'badge-danger'">
+                  {{ user.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              @if (currentUser?.role === 'PlatformAdmin') {
+                <td class="actions-cell">
+                  <a [routerLink]="['edit', user.id]" class="btn-icon btn-edit">Edit</a>
+                  <button *ngIf="user.isActive" (click)="deactivate(user.id)" class="btn-icon btn-danger">Deactivate</button>
+                </td>
+              }
+            </tr>
+          }
+          @if (users.length === 0) {
+            <tr>
+              <td [attr.colspan]="currentUser?.role === 'PlatformAdmin' ? 5 : 4" style="text-align: center; padding: 2rem; color: #64748b;">
+                No users found.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
 </div>
+
+<style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
