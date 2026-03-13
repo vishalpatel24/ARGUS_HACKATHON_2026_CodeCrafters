@@ -9,9 +9,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #1A1F2C;
-  color: #FFFFFF;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #0f172a 0%, #1a2744 100%);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  height: 64px;
   
   .brand {
     cursor: pointer;
@@ -20,6 +21,7 @@
       font-size: 1.5rem;
       font-weight: 700;
       background: linear-gradient(90deg, #4ade80, #3b82f6);
+      background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
